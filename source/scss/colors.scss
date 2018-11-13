@@ -1,0 +1,26 @@
+$primary_color: #181B45;
+$content_bg_color: #eee;
+$background_color: #fff;
+$module_bg_color: #fff;
+
+$primary_color_lightened: lighten($primary_color, 15%);
+$primary_color_darkened: darken($primary_color, 15%);
+$primary_color_greyed: #eee;
+$soft_gradient: #000;
+
+@mixin auto_text_color() {
+  @if dark(background-color) {
+    color: lighten($background-color, 90%);
+  }
+  @else {
+    color: $primary_color;
+  }
+}
+
+@mixin darkbg(){
+  @include auto_text_color();
+}
+
+@mixin lightbg() {
+  @include auto_text_color();
+}

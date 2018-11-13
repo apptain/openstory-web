@@ -1,0 +1,29 @@
+@import 'utilities';
+
+@font-face {
+  font-family: 'Philosopher';
+  src: url("../assets/fonts/Philosopher.eot"),
+  url("../assets/fonts/Philosopher.woff") format("woff"),
+  url("../assets/fonts/Philosopher.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OpenSans-Semibold';
+  src: url("../assets/fonts/OpenSans-Semibold.eot"),
+  url("../assets/fonts/OpenSans-Semibold.woff") format("woff"),
+  url("../assets/fonts/OpenSans-Semibold.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@mixin font-header() {
+  font-family: 'Philosopher', sans-serif;
+  font-weight: bold;
+}
+
+@mixin font-body() {
+  font-family: 'OpenSans-Semibold', sans-serif;
+  font-weight: 500;
+}
