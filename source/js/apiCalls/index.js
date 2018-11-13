@@ -11,7 +11,7 @@ export const storiesGet = () => {
     })
     .catch(function (error) {
       // handle error
-      return {error: 'ENDPOINT ERROR at ' + thatEndpoint + '\<br \/\> ERROR:' + error.message};
+      return {error};
     });
 };
 

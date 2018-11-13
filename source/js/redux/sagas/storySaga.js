@@ -13,29 +13,35 @@ import { STORY_CHANGE,
   CATEGORIES_GET_FAIL } from '../modules/stories';
 import {fork, take} from "redux-saga/es/effects";
 
+import { storiesGet } from '../../apiCalls';
+
 
 // -------- Get stories
 
 function createGetStories(isServer = false) {
-  return function* (apiCall) { // eslint-disable-line consistent-return
-    try {
-      const { response } = yield call(apiCall);
+  console.log('logs');
+  return function* () { // eslint-disable-line consistent-return
+      const { response , error} = yield call(storiesGet);
       const action = { type: STORIES_GET_SUCCESS, data: response };
 
-      if (isServer) {
-        return action;
+      if(response) {
+        if (isServer) {
+          return action;
+        }
+
+        yield put(action);
+        // const story = response;
+        // yield put({ type: STORIES_GET_SUCCESS, story})
+      } else {
+        const action = { type: STORIES_GET_FAIL, error };
+
+        if (isServer) {
+          return action;
+        }
+
+        yield put(action);
       }
 
-      yield put(action);
-    } catch (error) {
-      const action = { type: STORIES_GET_FAIL, error };
-
-      if (isServer) {
-        return action;
-      }
-
-      yield put(action);
-    }
   };
 }
 
@@ -44,10 +50,7 @@ export const getStoriesServer = createGetStories(true);
 
 
 export function* getStoriesWatcher() {
-  while (true) {
-    const { apiCall } = yield take(STORIES_GET);
-    yield fork(getStories, apiCall);
-  }
+  yield takeLatest(STORIES_GET, getStories);
 }
 
 export default [
