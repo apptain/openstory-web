@@ -1,5 +1,6 @@
 export const STORY_CHANGE = 'openstory/stories/STORY_CHANGE';
 export const STORY_SELECT = 'openstory/stories/STORY_SELECT';
+export const STORY_SET = 'openstory/stories/STORY_SET';
 export const STORIES_GET = 'openstory/stories/STORIES_GET';
 export const STORIES_GET_SUCCESS = 'openstory/stories/STORIES_GET_SUCCESS';
 export const STORIES_GET_FAIL = 'openstory/stories/STORIES_GET_FAIL';
@@ -28,6 +29,9 @@ export default function reducer(state = initialState, action = {}) {
       return {...state, storyEdit: action.storyEdit};
     case STORIES_GET:
         return { ...state, storiesLoading : true};
+    case STORY_SET:
+      debugger;
+      return { ...state, story: action.story };
     case STORIES_GET_SUCCESS:
       return { ...state, stories: action.data, storiesLoading: false, storiesLoaded: true};
     case STORIES_GET_FAIL:
@@ -56,9 +60,11 @@ export default function reducer(state = initialState, action = {}) {
 //   return {type: STORY_CHANGE, storyEdit};
 // }
 
-export function isLoaded(globalState) {
-  return globalState.stories && globalState.stories.loaded;
+
+export function storySet(story) {
+  return { type: STORY_SET, story};
 }
+
 
 export function storiesGet(apiCall) {
   return {type: STORIES_GET, apiCall};

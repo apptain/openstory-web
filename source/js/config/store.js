@@ -7,7 +7,30 @@ import logger from 'dev/logger';
 import transit from 'transit-immutable-js';
 
 import rootSaga from 'redux/sagas';
-import rootReducer from 'redux/reducers';
+import {persistReducer, persistStore} from "redux-persist";
+import createSensitiveStorage from "redux-persist-sensitive-storage";
+
+import { auth as authReducer, stories as storyReducer } from "redux/reducers";
+
+const sensitiveStorage = createSensitiveStorage({
+  keychainService: "OpenStory",
+  sharedPreferencesName: "OpenStory Preferences"
+});
+
+const storyPersistConfig = {
+  key: "stories",
+  storage: AsyncStorage
+};
+
+const authPersistConfig = {
+  key: "auth",
+  storage: sensitiveStorage
+};
+
+const rootReducer = combineReducers({
+  auth: persistReducer(authPersistConfig, authReducer),
+  story: persistReducer(storyPersistConfig, storyReducer)
+});
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
@@ -19,30 +42,6 @@ try {
   initialState = transit.fromJSON(__MARVIN_DEHYDRATED_STATE); // eslint-disable-line no-undef
 } catch (e) {
   // ★★ Marvin: No dehydrated state
-}
-
-function getStatechartValue(state) {
-  return state.statechart.value;
-}
-
-function getStatechart(state) {
-  return state.statechart;
-}
-
-function getStatechartExit(state) {
-  return state.statechart.effects.exit;
-}
-function getStatechartEntry(state) {
-  return state.statechart.effects.entry;
-}
-
-function statechartReducer(state = machine.initial, action) {
-  const nextState = machine.transition(state, action.type);
-  if (nextState) {
-    return nextState.value;
-  } else {
-    return state;
-  }
 }
 
 // Creating store
@@ -102,10 +101,13 @@ export default (serverSagas = null, sagaOptions = {}) => {
       store.replaceReducer(nextRootReducer);
     });
   }
+  //
+  // // Return store only
+  // // But as an object for consistency
+  // return {
+  //   store,
+  // };
 
-  // Return store only
-  // But as an object for consistency
-  return {
-    store,
-  };
+  let persistor = persistStore(store);
+  return { persistor, store };
 };
