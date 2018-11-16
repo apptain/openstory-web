@@ -7,30 +7,22 @@ import logger from 'dev/logger';
 import transit from 'transit-immutable-js';
 
 import rootSaga from 'redux/sagas';
-import {persistReducer, persistStore} from "redux-persist";
-import createSensitiveStorage from "redux-persist-sensitive-storage";
+import { persistReducer, persistStore } from 'redux-persist';
+import { combineReducers } from 'redux';
 
-import { auth as authReducer, stories as storyReducer } from "redux/reducers";
+import reducers from "redux/reducers";
+import storage from 'redux-persist/lib/storage';
 
-const sensitiveStorage = createSensitiveStorage({
-  keychainService: "OpenStory",
-  sharedPreferencesName: "OpenStory Preferences"
-});
+//TODO get encrypted working, throwing error from key in config
+import createAsyncEncryptor from "redux-persist-transform-encrypt/async";
 
-const storyPersistConfig = {
-  key: "stories",
-  storage: AsyncStorage
+const persistConfig = {
+  key: 'root',
+  storage,
 };
 
-const authPersistConfig = {
-  key: "auth",
-  storage: sensitiveStorage
-};
+const rootReducer = persistReducer(persistConfig, reducers);
 
-const rootReducer = combineReducers({
-  auth: persistReducer(authPersistConfig, authReducer),
-  story: persistReducer(storyPersistConfig, storyReducer)
-});
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
