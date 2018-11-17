@@ -9,7 +9,9 @@ import LoginTwitter from 'containers/LoginTwitter';
 import StoryForm from 'containers/StoryForm';
 import StoryView from 'containers/StoryView';
 import NotFound from 'components/NotFound';
+import AccountForm from 'containers/domain/account';
 import '@material-ui/core/CssBaseline';
+import {publicPath} from "./constants/routes";
 
 class App extends Component {
   render() {
@@ -18,12 +20,9 @@ class App extends Component {
         <div className='Page'>
           <Switch>
             <Route exact path={ routeCodes.HOME } component={ Home } />
-            <Route exact path={ routeCodes.LOGIN } component={ Login } />
-            <Route path='/story/:id' component={ StoryView } />
-            <Route path={ `${routeCodes.STORY_FORM}/:id` } component={ StoryForm } />
-            <Route exact path={ routeCodes.LOGIN_FACEBOOK } component={ LoginFacebook } />
-            <Route exact path={ routeCodes.LOGIN_TWITTER } component={ LoginTwitter } />
-            <Route path='*' component={ NotFound } />
+
+            <Route path={ routeCodes.ACCOUNT_NEW } component={ AccountForm } />
+            <Route path={ routeCodes.ACCOUNT_EDIT } component={ AccountForm } />
           </Switch>
         </div>
       </div>
@@ -32,3 +31,10 @@ class App extends Component {
 }
 
 export default hot(module)(App);
+
+// LOGIN_FACEBOOK: `${ publicPath }login/facebook`,
+//   LOGIN_TWITTER: `${ publicPath }login/twitter`,
+//   PROFILE: `${ publicPath }profile`,
+//   STORY_VIEW: `${ publicPath }story/:id`,
+//   STORY_FORM: `${ publicPath }story/create`,
+//   STORY_EDIT: `${ publicPath }story/edit/:id`,

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 
 import { storiesGet as storiesGetApiCall } from '../apiCalls';
-import { storiesGet, storySet } from '../redux/modules/stories';
+import { storiesGet, storySet } from '../redux/modules/storyModule';
 
 import { withStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List';

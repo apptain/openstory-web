@@ -1,23 +1,12 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import { STORY_CHANGE,
-  STORY_SELECT,
+import {
   STORIES_GET,
   STORIES_GET_SUCCESS,
-  STORIES_GET_FAIL,
-  STORY_UPSERT,
-  STORY_UPSERT_SUCCESS,
-  STORY_UPSERT_FAIL,
-  CATEGORIES_GET,
-  CATEGORIES_GET_SUCCESS,
-  CATEGORIES_GET_FAIL } from '../modules/stories';
-import {fork, take} from "redux-saga/es/effects";
-
+  STORIES_GET_FAIL } from '../modules/storyModule';
 import { storiesGet } from '../../apiCalls';
 
-
 // -------- Get stories
-
 function createGetStories(isServer = false) {
   console.log('logs');
   return function* () { // eslint-disable-line consistent-return
