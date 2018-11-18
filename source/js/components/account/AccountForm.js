@@ -1,15 +1,16 @@
 import React, { PropTypes, Component } from 'react';
 
-import DocFormContainer from 'packageDev/docdomain/DocFormContainer';
-import DocHistoryContainer from 'packageDev/docdomain/DocHistoryContainer';
+import DocFormContainer from 'containers/packageDev/docdomain/DocFormContainer';
+import DocHistoryContainer from 'containers/packageDev/docdomain/DocHistoryContainer';
 
 import srSchemaFunc from 'domain/formSchemas/srSchemaFunc';
 import srUiSchema from 'domain/formUiSchemas/srUiSchema';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-export default class Account extends Component {
+export default class AccountForm extends Component {
   render() {
+    debugger;
     return (
       <div className="container-fluid">
         <div className="col-sm-9">

@@ -49,11 +49,11 @@ function ListItemComposition(props) {
           </ListItemIcon>
           <ListItemText classes={{ primary: classes.primary }} inset primary='Author Application' />
         </MenuItem>
-        <MenuItem className={classes.menuItem} onClick={navigate(`/authors`)}>
+        <MenuItem className={classes.menuItem} onClick={navigate(`/admin/account`)}>
           <ListItemIcon className={classes.icon}>
             <DraftsIcon />
           </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary='Author Administration' />
+          <ListItemText classes={{ primary: classes.primary }} inset primary='Account Entry' />
         </MenuItem>
       </MenuList>
     </Paper>

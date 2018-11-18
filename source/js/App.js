@@ -9,7 +9,6 @@ import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
@@ -31,7 +30,7 @@ import LoginTwitter from 'containers/LoginTwitter';
 import StoryForm from 'containers/StoryForm';
 import StoryView from 'containers/StoryView';
 import NotFound from 'components/NotFound';
-import AccountForm from 'components/account';
+import AccountForm from 'components/account/AccountForm';
 import AuthorApplicationWizard from 'components/author/AuthorApplicationWizard';
 import AuthorList from 'containers/AuthorList';
 import AuthorAdmin from 'components/author/AuthorAdmin';
@@ -161,13 +160,9 @@ class App extends React.Component {
           <div className='Page'>
             <Switch>
               <Route exact path={ routeCodes.HOME } component={ Home } />
-              <Route path={ routeCodes.AUTHOR_APPLICATION_NEW } component={ AuthorApplicationWizard } />
-              <Route path={ routeCodes.AUTHOR_APPLICATION_EDIT } component={ AuthorApplicationWizard } />
+              <Route path={ routeCodes.AUTHOR_APPLICATION } component={ AuthorApplicationWizard } />
               {/*TODO Authenticate Routes*/}
-              <Route path={ routeCodes.ACCOUNT_NEW } component={ AccountForm } />
-              <Route path={ routeCodes.ACCOUNT_EDIT } component={ AccountForm } />
-              <Route path={ routeCodes.AUTHOR_APPLICATION_NEW } component={ AuthorApplicationWizard } />
-              <Route path={ routeCodes.AUTHOR_APPLICATION_EDIT } component={ AuthorApplicationWizard } />
+              <Route path={ routeCodes.ACCOUNT_FORM } component={ AccountForm } />
               <Route path={ routeCodes.AUTHOR_LIST } component={ AuthorList } />
               <Route path={ routeCodes.AUTHOR_ADMIN } component={ AuthorAdmin } />
             </Switch>
