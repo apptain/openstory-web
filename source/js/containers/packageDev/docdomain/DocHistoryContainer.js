@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux'
-import { clearHistory} from '../../redux/modules/domainModule';
+import { clearHistory} from '../../../redux/modules/domainModule';
 import dateFormat from 'dateformat';
 
 //TODO move to utils

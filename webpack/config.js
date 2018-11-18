@@ -14,7 +14,11 @@ const paths = {
     path.join(__dirname, '../node_modules/tinymce/skins/lightgray/fonts/'),
     path.join(__dirname, '../node_modules/bootstrap/dist/fonts/'),
   ],
-  images: [path.join(__dirname, '../source/assets/img'), path.join(__dirname, '../node_modules/tinymce/skins/lightgray/fonts/'), path.join(__dirname, '../node_modules/tinymce/skins/lightgray/img/')],
+  images: [
+    path.join(__dirname, '../source/assets/img'),
+    path.join(__dirname, '../node_modules/tinymce/skins/lightgray/fonts/'),
+    path.join(__dirname, '../node_modules/tinymce/skins/lightgray/img/')
+  ],
   javascript: path.join(__dirname, '../source/js'),
   svg: [
     path.join(__dirname, '../source/assets/svg'),

@@ -5,12 +5,12 @@ import debounce from 'debounce';
 import $ from 'jquery';
 
 import Form from 'react-jsonschema-form';
-import formWidgets from '../../domain/formWidgets';
-import CustomFieldTemplate from '../../domain/customFieldTemplate';
+import formWidgets from '../../../domain/formWidgets/index';
+import CustomFieldTemplate from '../../../domain/customFieldTemplate';
 // import {fetchDoc, createDoc, updateDoc} from '../../services/apiCalls';
-import {docChange, docInitiate, viewGetFetch} from '../../redux/modules/domainModule';
+import {docChange, docInitiate, viewGetFetch} from '../../../redux/modules/domainModule';
 import { Action, withStateMachine } from 'react-automata';
-import machine from '../../machines/docFormStateMachine';
+import machine from '../../../machines/docFormStateMachine';
 
 import createHistory from 'history/createBrowserHistory';
 

@@ -11,3 +11,6 @@ Also demos use of material, state charts, and redux modules shareable with react
 * Implmement better key generation than using index to satisfy eslint
 * API client url config from webpack
 * Get eslint fix working
+* Clean up webpack config
+
+* Implement scss theming
