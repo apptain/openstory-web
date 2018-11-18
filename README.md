@@ -10,3 +10,4 @@ Also demos use of material, state charts, and redux modules shareable with react
 * In server have JSON props come back lowercase
 * Implmement better key generation than using index to satisfy eslint
 * API client url config from webpack
+* Get eslint fix working

@@ -18,8 +18,9 @@
     "universal:dev": "concurrently -c blue,cyan,yellow --names \"build-server,build-client,node-server\" --kill-others \"npm run server:watch\" \"npm run client:watch\" \"npm run server:restart\"",
     "universal:build": "npm run client:build-hydrate && npm run server:build",
     "clean": "rm -rf ./build",
-    "lint-hook": "eslint ./source/js ./webpack ./*.js -f table --ext .js --ext .jsx",
+    "lint-hook": "eslint ./source/js ./webpack ./*.js -f table --ext .js",
     "lint": "npm run lint-hook --silent || true",
+    "lint-fix": "npm run lint-hook --fix",
     "hook-add": "prepush install",
     "hook-remove": "prepush remove",
     "test": "echo \"Error: no test specified\" && exit 1"
