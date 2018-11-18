@@ -12,6 +12,8 @@ import {docChange, docInitiate, viewGetFetch} from '../../../redux/modules/domai
 import { Action, withStateMachine } from 'react-automata';
 import machine from '../../../machines/docFormStateMachine';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
 import createHistory from 'history/createBrowserHistory';
 
 const history = createHistory();

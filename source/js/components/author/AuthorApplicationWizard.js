@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import StepZilla from 'react-stepzilla';
-import AccountForm from '../../account/AccountForm';
 
-import '../css/main.css';
+import AuthorExperienceForm from './forms/AuthorExperienceForm';
+import AuthorProfileForm from './forms/AuthorProfileForm';
+import AuthorSpecialtyForm from './forms/AuthorSpecialtyForm';
+import ContactInformationForm from './forms/ContactInformationForm';
+
+import 'react-stepzilla/src/css/main.css';
 
 export default class Example extends Component {
   constructor(props) {
@@ -34,8 +38,10 @@ export default class Example extends Component {
   render() {
     const steps =
       [
-        {name: 'Step1', component: <AccountStore  />},
-        {name: 'Step2', component: <AccountStore  />},
+        {name: 'Contact Information', component: <ContactInformationForm/>},
+        {name: 'Specialty', component: <AuthorSpecialtyForm/>},
+        {name: 'Experience', component: <AuthorExperienceForm/>},
+        {name: 'Profile', component: <AuthorProfileForm/>},
       ]
     return (
       <div className='example'>
@@ -44,7 +50,7 @@ export default class Example extends Component {
             steps={steps}
             preventEnterSubmission={true}
             nextTextOnFinalActionStep={"Save"}
-            hocValidationAppliedTo={[3]e
+            hocValidationAppliedTo={[3]}
             startAtStep={window.sessionStorage.getItem('step') ? parseFloat(window.sessionStorage.getItem('step')) : 0}
             onStepChange={(step) => window.sessionStorage.setItem('step', step)}
           />
@@ -53,3 +59,6 @@ export default class Example extends Component {
     )
   }
 }
+
+
+

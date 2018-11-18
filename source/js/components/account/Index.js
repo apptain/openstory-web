@@ -1,13 +1,10 @@
 import React, { PropTypes, Component } from 'react';
-import { push } from 'react-router-redux';
 
-import DocFormContainer from '../../doc/DocFormContainer';
-import DocHistoryContainer from '../../doc/DocHistoryContainer';
+import DocFormContainer from 'containers/packageDev/docdomain/DocFormContainer';
+import DocHistoryContainer from 'containers/packageDev/docdomain/DocHistoryContainer';
 
-import { connect } from 'react-redux';
-
-import srSchemaFunc from '../../../domain/formSchemas/srSchemaFunc';
-import srUiSchema from '../../../domain/formUISchemas/srUiSchema';
+import srSchemaFunc from 'domain/formSchemas/srSchemaFunc';
+import srUiSchema from 'domain/formUiSchemas/srUiSchema';
 
 import 'bootstrap/dist/css/bootstrap.css';
 

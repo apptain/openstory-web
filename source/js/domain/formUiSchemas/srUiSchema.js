@@ -2,17 +2,17 @@ import React, {PropTypes} from "react";
 
 export default function () {
     var srUiSchema = {
-        // affecteddate: {
-        //     "ui:widget": "dat
-        personsSelect: {
-            classNames: 'col-sm-12'
-        },
-        reporterPerson: {
-            classNames: 'col-sm-8'
-        },
-        summary: {
-            classNames: 'col-sm-6 clear'
-        },
+      // affecteddate: {
+      //     "ui:widget": "dat
+      personsSelect: {
+          classNames: 'col-sm-12'
+      },
+      reporterPerson: {
+          classNames: 'col-sm-8'
+      },
+      summary: {
+          classNames: 'col-sm-6 clear'
+      },
       desription: {
         'ui:widget': 'tinymceWidget',
         classNames: 'col-sm-6 clear'

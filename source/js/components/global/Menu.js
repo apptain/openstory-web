@@ -9,6 +9,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import SendIcon from '@material-ui/icons/Send';
+import createHistory from 'history/createBrowserHistory';
+
+const history = createHistory();
 
 const styles = theme => ({
   menuItem: {
@@ -26,26 +29,31 @@ const styles = theme => ({
 function ListItemComposition(props) {
   const { classes } = props;
 
+  const navigate= path => e => {
+    //history.push(path);
+    window.location = path;
+  }
+
   return (
     <Paper>
       <MenuList>
-        <MenuItem className={classes.menuItem}>
-          <ListItemIcon className={classes.icon}>
-            <SendIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Sent mail" />
-        </MenuItem>
-        <MenuItem className={classes.menuItem}>
-          <ListItemIcon className={classes.icon}>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Drafts" />
-        </MenuItem>
-        <MenuItem className={classes.menuItem}>
+        <MenuItem className={classes.menuItem} onClick={navigate(`/`)} >
           <ListItemIcon className={classes.icon}>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText classes={{ primary: classes.primary }} inset primary="Inbox" />
+          <ListItemText classes={{ primary: classes.primary }} inset primary='Stories' />
+        </MenuItem>
+        <MenuItem className={classes.menuItem} onClick={navigate(`/author/application`)} >
+          <ListItemIcon className={classes.icon}>
+            <SendIcon />
+          </ListItemIcon>
+          <ListItemText classes={{ primary: classes.primary }} inset primary='Author Application' />
+        </MenuItem>
+        <MenuItem className={classes.menuItem} onClick={navigate(`/authors`)}>
+          <ListItemIcon className={classes.icon}>
+            <DraftsIcon />
+          </ListItemIcon>
+          <ListItemText classes={{ primary: classes.primary }} inset primary='Author Administration' />
         </MenuItem>
       </MenuList>
     </Paper>
