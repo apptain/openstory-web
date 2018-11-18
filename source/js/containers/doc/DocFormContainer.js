@@ -30,7 +30,6 @@ class DocFormContainer extends Component {
     schemaFunc: PropTypes.func,
     uiSchema: PropTypes.func,
     validate: PropTypes.func,
-    //ssssviews: PropTypes.array,
     keyField: PropTypes.string,
     defaultDoc: PropTypes.object,
     formToDomainDoc: PropTypes.func,
@@ -38,7 +37,7 @@ class DocFormContainer extends Component {
     getDocViewFetch: PropTypes.func,
     getDocViewCreateCall: PropTypes.func,
     getDocViewUpdateCall: PropTypes.func,
-    onDocChange: PropTypes.func
+    onDocChange: PropTypes.func,
   }
 
   static get defaultProps() {
@@ -105,6 +104,7 @@ class DocFormContainer extends Component {
     }
   }
   render() {
+    debugger;
       const doc = this.state.doc || {}
       // const connectedSchema =  {
       //   schemaName: this.props.schemaName,

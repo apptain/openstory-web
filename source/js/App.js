@@ -20,7 +20,7 @@ class App extends Component {
         <div className='Page'>
           <Switch>
             <Route exact path={ routeCodes.HOME } component={ Home } />
-
+            {/*TODO Authenticate Routes*/}
             <Route path={ routeCodes.ACCOUNT_NEW } component={ AccountForm } />
             <Route path={ routeCodes.ACCOUNT_EDIT } component={ AccountForm } />
           </Switch>
@@ -31,10 +31,3 @@ class App extends Component {
 }
 
 export default hot(module)(App);
-
-// LOGIN_FACEBOOK: `${ publicPath }login/facebook`,
-//   LOGIN_TWITTER: `${ publicPath }login/twitter`,
-//   PROFILE: `${ publicPath }profile`,
-//   STORY_VIEW: `${ publicPath }story/:id`,
-//   STORY_FORM: `${ publicPath }story/create`,
-//   STORY_EDIT: `${ publicPath }story/edit/:id`,

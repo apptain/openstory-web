@@ -1,7 +1,7 @@
-import {Machine} from "xstate";
+import { Machine } from 'xstate';
 
 const machine = Machine({
-  id: 'formStateMachine',
+  id: 'docFormStateMachine',
   initial: 'initializing',
   states: {
     initializing: {

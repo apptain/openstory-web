@@ -11,4 +11,5 @@ export const routeCodes = {
   STORY_EDIT: `${ publicPath }story/edit/:id`,
   ACCOUNT_NEW: `${ publicPath }admin/account`,
   ACCOUNT_EDIT: `${ publicPath }admin/account/:id`,
+  REPORTER_APPLICATION: `${ publicPath }admin/account/:id`,
 };
