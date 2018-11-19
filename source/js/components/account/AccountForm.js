@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 export default class AccountForm extends Component {
   render() {
+    const { match: { params } } = this.props;
     //TODO Layout with material and not boostrap
     return (
       <div className="container-fluid">
@@ -21,6 +22,7 @@ export default class AccountForm extends Component {
             uiSchema={srUiSchema}
             onDocChange={this.onDocChange}
             views={[]}
+            routeParams={ params }
           />
         </div>
         <div className="col-sm-3">

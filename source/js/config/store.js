@@ -36,6 +36,30 @@ try {
   // ★★ Marvin: No dehydrated state
 }
 
+
+/**
+ * Add all the state in local storage
+ * @param getState
+ * @returns {function(*): function(*=)}
+ */
+const localStorageMiddleware = ({getState}) => { // <--- FOCUS HERE
+  return (next) => (action) => {
+    const result = next(action);
+    localStorage.setItem('applicationState', JSON.stringify(
+      getState()
+    ));
+    return result;
+  };
+};
+
+const reHydrateStore = () => { // <-- FOCUS HERE
+
+  if (localStorage.getItem('applicationState') !== null) {
+    return JSON.parse(localStorage.getItem('applicationState')) // re-hydrate the store
+
+  }
+}
+
 // Creating store
 // Remove "serverSagas" and "sagaOptions" params
 // if you are not using server rendering
@@ -47,11 +71,11 @@ export default (serverSagas = null, sagaOptions = {}) => {
 
   if (IS_PRODUCTION) {
     // In production we are adding only sagas middleware
-    middleware = applyMiddleware(sagaMiddleware);
+    middleware = applyMiddleware(sagaMiddleware, localStorageMiddleware);
   } else {
     // In development mode beside sagaMiddleware
     // logger and DevTools are added
-    middleware = applyMiddleware(sagaMiddleware, logger);
+    middleware = applyMiddleware(sagaMiddleware, localStorageMiddleware, logger);
 
     // Enable DevTools if browser extension is installed
     if (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__) { // eslint-disable-line
@@ -63,12 +87,11 @@ export default (serverSagas = null, sagaOptions = {}) => {
   }
 
   // Create store
-  // with initial state if it exists
   store = createStore(
     rootReducer,
-    initialState,
-    middleware
-  );
+    reHydrateStore(),
+    middleware,
+  )
 
   // Server render
   // Remove if you are not using server rendering

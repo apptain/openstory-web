@@ -1,4 +1,4 @@
-//TODO refactor Views to another modules
+import diff from 'deep-diff';
 
 export const DocState = {
   blank: "BLANK",
@@ -42,32 +42,40 @@ export const docInitiate = (schemaName, doc, keyField, tempId) => {
       dateTimeCached: new Date(),
       dateTimeChanged: new Date(),
       initialValue: Object.assign({}, doc),
-      currentValue: Object.assign({}, doc, {})
-    }})
+      currentValue: Object.assign({}, doc, {}),
+      changeLog: []
+    }, [keyField]: tempId});
 
   return {type: docInitiate, schemaName, doc: newDoc, keyField, tempId}
 }
 
 
 // export const docCreated = (schemaName, doc, keyField, tempId) => action(docCreated, {schemaName, doc, keyField, tempId})
-export const docChange = (schemaName, doc, keyField, id, onChange) => {
-  if (onChange) {
-    doc = onChange(doc)
+export const docChange = (schemaName, formData, doc, keyField, id, onChange) => {
+  debugger;
+  //TODO onChange parameter handling for custom parameter
+
+  if(doc.meta){
+    // if (onChange) {
+    //   doc = onChange(doc)
+    // }
+    var currentValue = Object.assign({}, doc, {})
+    delete currentValue.meta
+    const change = diff(currentValue, formData);
+    Object.assign(doc, formData);
+
+    doc.meta.changeLog.push({
+      change,
+      dateTime: new Date()
+    });
+
+    doc.meta.previousValue = doc.meta.currentValue
+    doc.meta.currentValue = currentValue
+
+    return {type: docChange, schemaName, doc, keyField, id };
   }
-  var currentValue = Object.assign({}, doc, {})
-  delete currentValue.meta
-  const change = diff(currentValue, doc.meta.currentValue);
-
-  doc.meta.changeLog.push({
-    change,
-    dateTime: new Date()
-  });
-
-  doc.meta.previousValue = doc.meta.currentValue
-  doc.meta.currentValue = currentValue
-
-  return {type: docChange, schemaName, doc, keyField, id };
-}
+  return {type: ''};
+ }
 
 // export const docChanged = (schemaName, doc, keyField, id) => action(docChanged, {schemaName, doc, keyField, id})
 
@@ -243,16 +251,15 @@ export default (state = init, action) => {
         })
       })
     case docInitiate:
-      return Object.assign({}, state, {
-        selectedDocs: Object.assign({}, state.selectedDocs, {
-          [action.schemaName]: action.doc
-        }),
+      debugger;
+      const updatedState = Object.assign({}, state, {
         docs: Object.assign({}, state.docs, {
           [action.schemaName]: Object.assign({}, state.docs[action.schemaName] || {}, {
             [action.tempId]: action.doc
           })
         })
-      })
+      });
+      return updatedState;
     case clearHistory:
       //TODO move me somewhere
       localStorage.clear()
