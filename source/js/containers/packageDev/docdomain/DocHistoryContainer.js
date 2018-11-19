@@ -78,6 +78,7 @@ class DocHistoryContainer extends Component {
 
     return (
         <div id="doc-history-container">
+          <h1>History</h1>
             <a onClick={this.clearHistory}>Clear</a>
             <ol className="PnnlTimeline">
                 {docs.map(this.renderDocHistoryItem, this)}

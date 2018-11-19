@@ -10,7 +10,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 export default class AccountForm extends Component {
   render() {
-    debugger;
+    //TODO Layout with material and not boostrap
     return (
       <div className="container-fluid">
         <div className="col-sm-9">

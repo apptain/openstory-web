@@ -5,12 +5,12 @@ import debounce from 'debounce';
 import $ from 'jquery';
 
 import Form from 'react-jsonschema-form';
-import formWidgets from '../../../domain/formWidgets/index';
-import CustomFieldTemplate from '../../../domain/customFieldTemplate';
+import formWidgets from 'domain/formWidgets/index';
+import CustomFieldTemplate from 'domain/customFieldTemplate';
 // import {fetchDoc, createDoc, updateDoc} from '../../services/apiCalls';
 import {docChange, docInitiate, viewGetFetch} from '../../../redux/modules/domainModule';
 import { Action, withStateMachine } from 'react-automata';
-import machine from '../../../machines/docFormStateMachine';
+import { docFormStateMachine } from 'machines/docStateMachines';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -54,6 +54,7 @@ class DocFormContainer extends Component {
     $('[type=submit]').click()
   }
   componentDidMount(){
+    this.docInit();
     //disable enter key submit
     $(document).ready(function() {
       $("form").bind("keypress", function (e) {
@@ -63,18 +64,9 @@ class DocFormContainer extends Component {
       });
     });
   }
-  docSave(form){
-      const doc = form.formData;
-      const id = form.formData[this.props.keyField];
-      // if(id){
-      //     this.props.docUpdateFetch(this.props.schemaName, updateDoc, doc, id, this.props.formToDomainDoc, this.props.domainToFormDoc, this.props.keyField)
-      // } else {
-      //     this.props.docCreateFetch(this.props.schemaName, createDoc, doc, this.props.formToDomainDoc, this.props.domainToFormDoc, this.props.keyField)
-      // }
-  }
-  docChange = form => {
+  docInit() {
     debugger;
-    if(this.props.views.length > 0){
+    if(this.props.views.length > 0) {
       this.props.transition('VIEWS_GETTING');
       this.props.views.forEach((view) => {
         //TODO wire up
@@ -102,8 +94,20 @@ class DocFormContainer extends Component {
       //TODO wire up default docs
       this.props.docInitiate(this.props.schemaName, {}, this.props.keyField, tempId);
       // } else {
-
     }
+  }
+  docSave(form){
+      const doc = form.formData;
+      const id = form.formData[this.props.keyField];
+      // if(id){
+      //     this.props.docUpdateFetch(this.props.schemaName, updateDoc, doc, id, this.props.formToDomainDoc, this.props.domainToFormDoc, this.props.keyField)
+      // } else {
+      //     this.props.docCreateFetch(this.props.schemaName, createDoc, doc, this.props.formToDomainDoc, this.props.domainToFormDoc, this.props.keyField)
+      // }
+  }
+  docChange = form => {
+    debugger;
+    this.props.onChange(form.formData, this.props.docChange, this.props.schemaName, this.props.keyField);
   }
   render() {
     debugger;
@@ -177,18 +181,10 @@ var mapDispatchToProps = function (dispatch) {
     //     dispatch(actions.domain.docGetFetch(schemaName, apiCall, id, transform, keyField))
     // },
     docInitiate(schemaName, doc, keyField, tempId) {
-
-      //dispatch(docInitiate(doc, schemaName, tempId, keyField));
-
-      //TODO move into actions
-      debugger;
-      //dispatch(push(( + '/' +).replace('//', '/')));
-      //browserHistory.push('/some/path');
-      //this.context.router.push('/my-route')
+      dispatch(docInitiate(doc, schemaName, tempId, keyField));
       history.push(`${history.location.pathname}/${tempId}`);
     },
     docChange(schemaName, doc, keyField, id, onChange){
-      debugger;
       dispatch(docChange(schemaName, doc, keyField, id, onChange))
     },
     // docCreateFetch(schemaName, apiCall, doc, formToDomainDoc, domainToFormDoc, keyField){
@@ -200,4 +196,4 @@ var mapDispatchToProps = function (dispatch) {
   }
 }
 
-export default withStateMachine(machine)(connect(mapStateToProps, mapDispatchToProps)(DocFormContainer))
+export default withStateMachine(docFormStateMachine)(connect(mapStateToProps, mapDispatchToProps)(DocFormContainer))

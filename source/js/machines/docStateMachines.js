@@ -1,6 +1,33 @@
+//TODO xstate Machine isn't really necessary for statecharts
 import { Machine } from 'xstate';
 
-const machine = Machine({
+const docState = Machine({
+  id: 'docStateMachine',
+  states: {
+    new: {
+      on: {
+        DOC_CLOSE: 'closed',
+        DOC_CHANGE: 'updated',
+      }
+    },
+    opened: {
+      on: {
+        DOC_CHANGE: 'updated',
+      }
+    },
+    updated: {
+      DOC_SAVE: 'updated',
+    },
+    saved: {
+      DOC_CLOSE: 'closed',
+    },
+    closed: {
+      //TODO cleanup from state handling
+    }
+  }
+});
+
+export const docFormStateMachine = Machine({
   id: 'docFormStateMachine',
   initial: 'initializing',
   states: {
@@ -70,4 +97,14 @@ const machine = Machine({
   }
 });
 
-export default machine;
+export const docLogState = Machine(
+  {
+
+  }
+);
+
+export const docErrorState = Machine(
+  {
+
+  }
+);
