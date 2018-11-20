@@ -1,4 +1,4 @@
-import diff from 'deep-diff';
+import diff from 'utils/diff';
 
 export const DocState = {
   blank: "BLANK",
@@ -33,7 +33,6 @@ export const docUpdateFetch = (schemaName, apiCall, doc, id, formToDomainDoc, do
 //these are non-rest related actions that meta-tag a doc and
 //these should not be handle for asynchronicity with sagas
 export const docInitiate = (schemaName, doc, keyField, tempId) => {
-  debugger;
   const newDoc = Object.assign(doc, {meta : {
       schemaName,
       keyField,
@@ -52,16 +51,15 @@ export const docInitiate = (schemaName, doc, keyField, tempId) => {
 
 // export const docCreated = (schemaName, doc, keyField, tempId) => action(docCreated, {schemaName, doc, keyField, tempId})
 export const docChange = (schemaName, formData, doc, keyField, id, onChange) => {
-  debugger;
   //TODO onChange parameter handling for custom parameter
-
   if(doc.meta){
     // if (onChange) {
     //   doc = onChange(doc)
     // }
+    debugger;
     var currentValue = Object.assign({}, doc, {})
     delete currentValue.meta
-    const change = diff(currentValue, formData);
+    const change = diff.map(currentValue, formData);
     Object.assign(doc, formData);
 
     doc.meta.changeLog.push({
@@ -240,6 +238,7 @@ export default (state = init, action) => {
     case docUpdateFetch:
       return state
     case docChange:
+      debugger;
       return Object.assign({}, state, {
         selectedDocs: Object.assign({}, state.selectedDocs, {
           [action.schemaName]: action.doc
@@ -251,7 +250,6 @@ export default (state = init, action) => {
         })
       })
     case docInitiate:
-      debugger;
       const updatedState = Object.assign({}, state, {
         docs: Object.assign({}, state.docs, {
           [action.schemaName]: Object.assign({}, state.docs[action.schemaName] || {}, {
@@ -261,6 +259,7 @@ export default (state = init, action) => {
       });
       return updatedState;
     case clearHistory:
+      debugger;
       //TODO move me somewhere
       localStorage.clear()
       return Object.assign({}, state, init)

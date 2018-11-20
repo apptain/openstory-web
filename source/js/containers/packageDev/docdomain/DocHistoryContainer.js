@@ -21,45 +21,22 @@ class DocHistoryContainer extends Component {
       }
   }
   renderDocHistoryItem(doc, index){
-    var affectedPerson = '';
-    let ticketInfo;
-
-    if(doc.personsSelect){
-        try {
-            const persons = JSON.parse(doc.personsSelect)
-            if(persons.affectedName){
-                affectedPerson = persons.affectedName;
-            }
-            else if (persons.affectedId) {
-                affectedPerson = persons.affectedId;
-            }
-        } catch(ex) {'handling occasional json parse error'}
-        //TODO handle better
-    }
-
-    const ticketStatus = capitalizeFirstLetter(doc.meta.state.toLowerCase());
-
-    let forLabel = '';
-
-    if (affectedPerson) {
-        forLabel = `for ${affectedPerson}`;
-    }
-
-    ticketInfo = `Ticket ${ticketStatus} ${forLabel}`;
+    //TODO statemachine in meta
+    const docStatus = capitalizeFirstLetter(doc.meta.state.toLowerCase());
 
     return (
       <li key={index} className="headings">
           <div>
           <a href={this.docHref(doc)}>
-              {dateFormat(doc.meta.dateTimeChanged, "shortTime")} -
-              {ticketInfo}
+            {doc.schemaName} edited on {dateFormat(doc.meta.dateTimeChanged, "shortTime")} -
           </a>
           </div>
       </li>
     )
   }
-  clearHistory(){
-      this.props.clearHistory(this.props.schemaName)
+  clearHistory() {
+    debugger;
+    this.props.clearHistory(this.props.schemaName);
   }
   render() {
     const docs = []
@@ -75,12 +52,11 @@ class DocHistoryContainer extends Component {
         })
         docs.reverse()
     }
-
     return (
         <div id="doc-history-container">
           <h1>History</h1>
-            <a onClick={this.clearHistory}>Clear</a>
-            <ol className="PnnlTimeline">
+            <a onClick={this.clearHistory.bind(this)}>Clear</a>
+            <ol>
                 {docs.map(this.renderDocHistoryItem, this)}
             </ol>
         </div>
@@ -97,7 +73,8 @@ var mapStateToProps = function (state) {
 var mapDispatchToProps = function (dispatch) {
     return {
         clearHistory(schemaName) {
-            dispatch(clearHistory())
+          debugger;
+          dispatch(clearHistory());
         },
     }
 }

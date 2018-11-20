@@ -30,7 +30,6 @@ export default function reducer(state = initialState, action = {}) {
     case STORIES_GET:
         return { ...state, storiesLoading : true};
     case STORY_SET:
-      debugger;
       return { ...state, story: action.story };
     case STORIES_GET_SUCCESS:
       return { ...state, stories: action.data, storiesLoading: false, storiesLoaded: true};

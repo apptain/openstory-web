@@ -57,16 +57,13 @@ class DocFormContainer extends Component {
     $('[type=submit]').click()
   }
   componentDidMount(){
-    debugger;
     if(this.state.docId) {
       this.props.transition('DOC_INITIATED');
     } else {
-      if(this.props.routeParams.id) {
-        //TODO move to route props to state and prevent double init
-        const docId = this.props.routeParams.id;
-        this.setState({docId });
-        debugger;
-        const doc =  this.props.docs[this.props.schemaName] && docId ?
+      if(this.props.routeParams.id || this.state.docId) {
+        const docId = this.props.routeParams.id || this.state.docId;
+        this.state.docId = docId;
+        const doc = this.props.docs[this.props.schemaName] && docId ?
           this.props.docs[this.props.schemaName][docId] : null;
         if (doc) {
           this.setState({doc});
@@ -76,7 +73,7 @@ class DocFormContainer extends Component {
           this.props.transition('DOC_GETTING');
         }
       } else {
-
+        debugger;
         if(this.props.views.length > 0) {
           this.props.transition('VIEWS_GETTING');
           this.props.views.forEach((view) => {
@@ -106,21 +103,17 @@ class DocFormContainer extends Component {
     });
   }
   docSave(form){
-      const doc = form.formData;
-      const id = form.formData[this.props.keyField];
-      // if(id){
-      //     this.props.docUpdateFetch(this.props.schemaName, updateDoc, doc, id, this.props.formToDomainDoc, this.props.domainToFormDoc, this.props.keyField)
-      // } else {
-      //     this.props.docCreateFetch(this.props.schemaName, createDoc, doc, this.props.formToDomainDoc, this.props.domainToFormDoc, this.props.keyField)
-      // }
+    //TODO
   }
   docChange = form => {
-    //form != doc - doc from state should be compared/and update from form change
-    const doc = this.docFromProps();
-    this.props.docChange(this.props.schemaName, doc, form.formData, this.props.keyField, this.state.keyField, this.props.docChange);
+    if(form){
+      //form != doc - doc from state should be compared/and update from form change
+      const doc = this.props.docs[this.props.schemaName] && this.state.docId ?
+        this.props.docs[this.props.schemaName][this.state.docId] : null;
+      this.props.docChange(this.props.schemaName, doc, form.formData, this.props.keyField, this.props.docChange);
+    }
   }
   render() {
-    debugger;
     const doc = this.state.doc || {}
     //TODO passing of views to schema
     const schema = this.props.schemaFunc()
@@ -129,30 +122,28 @@ class DocFormContainer extends Component {
     const docChangeDebounced = debounceEventHandler(this.docChange, 300);
 
     return (
-        <div className="doc-form-container">
-          <Action is="initializing">
-            <h1>Initializing...</h1>
-          </Action>
-          <Action is="ready">
-            <div className="container">
-              <Form
-                safeRenderCompletion={true}
-                formContext={this.state.doc}
-                schema={schema}
-                formData={ doc }
-                uiSchema={this.props.uiSchema()}
-                validate={this.props.validate}
-                onChange={docChangeDebounced}
-                onSubmit={this.docSave}
-                //transformErrors={this.props.transformErrors}
-                widgets={formWidgets}
-                FieldTemplate={CustomFieldTemplate}
-              />
-            </div>
-          </Action>
-
-
-        </div>
+      <div className="doc-form-container">
+        <Action is="initializing">
+          <h1>Initializing...</h1>
+        </Action>
+        <Action is="ready">
+          <div className="container">
+            <Form
+              safeRenderCompletion={true}
+              formContext={this.state.doc}
+              schema={schema}
+              formData={ doc }
+              uiSchema={this.props.uiSchema()}
+              validate={this.props.validate}
+              onChange={docChangeDebounced}
+              onSubmit={this.docSave}
+              //transformErrors={this.props.transformErrors}
+              widgets={formWidgets}
+              FieldTemplate={CustomFieldTemplate}
+            />
+          </div>
+        </Action>
+      </div>
     )
   }
 }
@@ -160,7 +151,7 @@ class DocFormContainer extends Component {
 var mapStateToProps = function (state) {
   return {
     docs: state.domain.docs,
-    views: state.domain.views
+    views: state.domain.views,
   }
 }
 

@@ -24,9 +24,7 @@ const styles = {
 
 
 class StoryView extends React.Component {
-
   render() {
-    debugger;
     return (
       <div>
         <Card style={styles.card}>
@@ -51,7 +49,6 @@ class StoryView extends React.Component {
 }
 
 var mapStateToProps = function (state) {
-  debugger;
   return {
     story: state.stories.story
   }
