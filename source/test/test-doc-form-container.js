@@ -1,5 +1,6 @@
 //TOTEST
 
+//Notifies of doc not found in domain
 //New doc is added to redux store with metadata
 //Doc is udate on change
 

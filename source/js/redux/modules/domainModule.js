@@ -50,18 +50,22 @@ export const docInitiate = (schemaName, doc, keyField, tempId) => {
 
 
 // export const docCreated = (schemaName, doc, keyField, tempId) => action(docCreated, {schemaName, doc, keyField, tempId})
-export const docChange = (schemaName, formData, doc, keyField, id, onChange) => {
+export const docChange = (schemaName, doc, formData, keyField, id, onChange) => {
   //TODO onChange parameter handling for custom parameter
+  debugger;
   if(doc.meta){
     // if (onChange) {
     //   doc = onChange(doc)
     // }
     debugger;
+
     var currentValue = Object.assign({}, doc, {})
     delete currentValue.meta
     const change = diff.map(currentValue, formData);
     Object.assign(doc, formData);
 
+    //todo losing id
+    //todo do not include type: "unchanged" props with changes
     doc.meta.changeLog.push({
       change,
       dateTime: new Date()

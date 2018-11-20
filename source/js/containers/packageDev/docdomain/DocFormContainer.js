@@ -43,28 +43,35 @@ class DocFormContainer extends Component {
     onDocChange: PropTypes.func,
     routeParams: PropTypes.any.isRequired,
   }
-
+  constructor(props){
+    super(props);
+    this.state = {
+      docId: props.docId || '',
+      doc: props.doc || null
+    };
+  }
   static get defaultProps() {
     return {
       views: []
     };
   }
-  state = {
-    docId: '',
-    doc: null,
-  }
+
   causeSubmit(){
     $('[type=submit]').click()
+  }
+  componentWillReceiveProps(newProps){
+    // if(newProps.variableInProps != this.props.variableInProps){
+    //   this.setState({variableInState: newProps.variableInProps })
+    // }
   }
   componentDidMount(){
     if(this.state.docId) {
       this.props.transition('DOC_INITIATED');
     } else {
-      if(this.props.routeParams.id) {
-        //TODO move to route props to state and prevent double init
-        const docId = this.props.routeParams.id;
+      const docId = this.props.routeParams.id || this.state.docId;
+      if(docId) {
         //TODO setState not working here for some reason. fix and fix dup code for doc from store
-        //this.setState({docId });
+        this.setState({docId });
         const doc = this.props.docs[this.props.schemaName] && docId ?
           this.props.docs[this.props.schemaName][docId] : null;
         if (doc) {
@@ -107,11 +114,13 @@ class DocFormContainer extends Component {
     //TODO
   }
   docChange = form => {
+    debugger;
     if(form){
       //form != doc - doc from state should be compared/and update from form change
       const doc = this.props.docs[this.props.schemaName] && this.state.docId ?
         this.props.docs[this.props.schemaName][this.state.docId] : null;
-      this.props.docChange(this.props.schemaName, doc, form.formData, this.props.keyField, this.props.docChange);
+      this.props.docChange(this.props.schemaName, doc, form.formData,
+        this.props.keyField, this.state.docId, this.props.docChange);
     }
   }
   render() {
