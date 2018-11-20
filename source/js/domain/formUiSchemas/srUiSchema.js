@@ -2,11 +2,6 @@ import React, {PropTypes} from "react";
 
 export default function () {
     var srUiSchema = {
-      // affecteddate: {
-      //     "ui:widget": "dat
-      personsSelect: {
-          classNames: 'col-sm-12'
-      },
       reporterPerson: {
           classNames: 'col-sm-8'
       },

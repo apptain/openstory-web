@@ -2,19 +2,14 @@ export default function () {
   //
   return {
     type: 'object',
-    title: ' ', //temp hack for spacing : )
+    title: 'Ticket ',
     required: ["description"],
     properties: {
-      //personsSelect is a json container for affected person and reporting person
-      personsSelect: {
-        type: 'string'
-      },
       summary: {
         title: 'Summary',
         maxLength: 320,
         type: 'string'
       },
-
       service: {
         title: 'Service',
         maxLength: 8,
@@ -92,9 +87,6 @@ export default function () {
         maxLength: 20,
         type: 'string'
       },
-      // worklog: {
-      //
-      // }
       worklogLink: {
         title: 'Worklog',
         type: 'string'
@@ -112,5 +104,4 @@ export default function () {
     }
   }
 }
-
 

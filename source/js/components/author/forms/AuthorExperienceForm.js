@@ -18,6 +18,7 @@ export default class AuthorExperienceForm extends Component {
           uiSchema={srUiSchema}
           onDocChange={this.onDocChange}
           views={[]}
+          routeParams={ this.props.params || {} }
         />
       </div>
     )

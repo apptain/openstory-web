@@ -2,6 +2,7 @@ import axios from 'axios';
 import * as endpoints from './endpoints';
 
 export const storiesGet = () => {
+  debugger;
   //TODO pass and handle filter
   return axios.get(endpoints.storiesGetUrl, {
       crossdomain: true

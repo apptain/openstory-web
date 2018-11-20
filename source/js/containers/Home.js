@@ -21,7 +21,7 @@ const styles = theme => ({
 });
 
 class StoryList extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const {
       stories,
     } = this.props;
