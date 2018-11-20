@@ -1,38 +1,24 @@
-export default function (applicationNames, contactSources, statuses, serviceGroups, chargeCodes) {
+export default function () {
   //
   return {
     type: 'object',
-    title: 'Ticket',
+    title: ' ', //temp hack for spacing : )
     required: ["description"],
     properties: {
-      affectedPerson: {
-        type: 'string',
-        title: 'Affected Person'
-      },
-      reporterOnly: {
-        type: 'boolean',
-        title: 'Reporter Only'
-      },
-      reporterPerson: {
-        type: 'string',
-        title: 'Reporter'
+      //personsSelect is a json container for affected person and reporting person
+      personsSelect: {
+        type: 'string'
       },
       summary: {
         title: 'Summary',
         maxLength: 320,
         type: 'string'
       },
-      application: {
-        title: 'Application',
-        maxLength: 50,
-        type: 'string',
-        enum: ['a', 'b']
-      },
+
       service: {
         title: 'Service',
         maxLength: 8,
-        type: 'string',
-        enum: serviceGroups
+        type: 'string'
       },
       details: {
         title: 'Details',
@@ -85,12 +71,6 @@ export default function (applicationNames, contactSources, statuses, serviceGrou
           }
         }
       },
-      source: {
-        title: 'Source',
-        default: 'PHONECALL',
-        type: 'string',
-        enum: ['abc', 'dcere'],
-      },
       propertyNumber: {
         title: 'Property Number',
         maxLength: 20,
@@ -98,9 +78,9 @@ export default function (applicationNames, contactSources, statuses, serviceGrou
       },
       chargeCode: {
         title: 'Charge Code',
-        maxLength: 6,
         type: 'string',
-        enum: ['abc', 'dcere'],
+        // enum: chargeCodes.map(function(x) {return x.value}),
+        // enumNames: chargeCodes.map(function(x) {return x.label})
       },
       incident: {
         title: 'Incident',
@@ -111,12 +91,6 @@ export default function (applicationNames, contactSources, statuses, serviceGrou
         title: 'Classification',
         maxLength: 20,
         type: 'string'
-      },
-      status: {
-        title: 'Status',
-        maxLength: 10,
-        type: 'string',
-        enum: ['abc', 'dcere'],
       },
       // worklog: {
       //

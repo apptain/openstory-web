@@ -8,7 +8,7 @@ export const routeCodes = {
   PROFILE: `${ publicPath }profile`,
   STORY_VIEW: `${ publicPath }story/:id`,
   STORY_FORM: `${ publicPath }story/create`,
-  TICKET_FORM: `${ publicPath }admin/ticket/:id?`,
+  ACCOUNT_FORM: `${ publicPath }admin/account/:id?`,
   AUTHOR_LIST: `${ publicPath }admin/authors`,
   AUTHOR_APPLICATION: `${ publicPath }author/application/:id?`,
   AUTHOR_ADMIN: `${ publicPath }admin/author/:id/:subForm?/:subDocId?`,

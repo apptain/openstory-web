@@ -238,7 +238,6 @@ export default (state = init, action) => {
     case docUpdateFetch:
       return state
     case docChange:
-      debugger;
       return Object.assign({}, state, {
         selectedDocs: Object.assign({}, state.selectedDocs, {
           [action.schemaName]: action.doc

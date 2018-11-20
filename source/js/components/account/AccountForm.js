@@ -8,13 +8,13 @@ import srUiSchema from 'domain/formUiSchemas/srUiSchema';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-export default class TicketForm extends Component {
+export default class AccountForm extends Component {
   render() {
     const { match: { params } } = this.props;
     //TODO Layout with material and not boostrap
     return (
       <div className="container-fluid">
-        <div className="col-sm-10">
+        <div className="col-sm-9">
           <DocFormContainer
             schemaName="sr"
             keyField="ticketid"
@@ -25,7 +25,7 @@ export default class TicketForm extends Component {
             routeParams={ params }
           />
         </div>
-        <div className="col-sm-2">
+        <div className="col-sm-3">
           <DocHistoryContainer schemaName="sr" />
         </div>
       </div>

@@ -19,7 +19,6 @@ export default class ContactInformationForm extends Component {
             uiSchema={srUiSchema}
             onDocChange={this.onDocChange}
             views={[]}
-            routeParams={ this.props.params || {} }
           />
         </div>
       </div>

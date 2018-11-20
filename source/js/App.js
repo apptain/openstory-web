@@ -30,7 +30,7 @@ import LoginTwitter from 'containers/LoginTwitter';
 import StoryForm from 'containers/StoryForm';
 import StoryView from 'containers/StoryView';
 import NotFound from 'components/NotFound';
-import TicketForm from 'components/account/TicketForm';
+import AccountForm from 'components/account/AccountForm';
 import AuthorApplicationWizard from 'components/author/AuthorApplicationWizard';
 import AuthorList from 'containers/AuthorList';
 import AuthorAdmin from 'components/author/AuthorAdmin';
@@ -162,7 +162,7 @@ class App extends React.Component {
               <Route exact path={ routeCodes.HOME } component={ Home } />
               <Route path={ routeCodes.AUTHOR_APPLICATION } component={ AuthorApplicationWizard } />
               {/*TODO Authenticate Routes*/}
-              <Route path={ routeCodes.TICKET_FORM } component={ TicketForm } />
+              <Route path={ routeCodes.ACCOUNT_FORM } component={ AccountForm } />
               <Route path={ routeCodes.AUTHOR_LIST } component={ AuthorList } />
               <Route path={ routeCodes.AUTHOR_ADMIN } component={ AuthorAdmin } />
             </Switch>

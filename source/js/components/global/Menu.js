@@ -49,7 +49,7 @@ function ListItemComposition(props) {
           </ListItemIcon>
           <ListItemText classes={{ primary: classes.primary }} inset primary='Author Application' />
         </MenuItem>
-        <MenuItem className={classes.menuItem} onClick={navigate(`/admin/ticket`)}>
+        <MenuItem className={classes.menuItem} onClick={navigate(`/admin/account`)}>
           <ListItemIcon className={classes.icon}>
             <DraftsIcon />
           </ListItemIcon>

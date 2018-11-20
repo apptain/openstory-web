@@ -36,7 +36,6 @@ export default class Example extends Component {
   }
 
   render() {
-    const { match: { params } } = this.props;
     const steps =
       [
         {name: 'Contact Information', component: <ContactInformationForm/>},
@@ -54,7 +53,6 @@ export default class Example extends Component {
             hocValidationAppliedTo={[3]}
             startAtStep={window.sessionStorage.getItem('step') ? parseFloat(window.sessionStorage.getItem('step')) : 0}
             onStepChange={(step) => window.sessionStorage.setItem('step', step)}
-            params
           />
         </div>
       </div>

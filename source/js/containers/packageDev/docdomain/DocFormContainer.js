@@ -60,9 +60,11 @@ class DocFormContainer extends Component {
     if(this.state.docId) {
       this.props.transition('DOC_INITIATED');
     } else {
-      if(this.props.routeParams.id || this.state.docId) {
-        const docId = this.props.routeParams.id || this.state.docId;
-        this.state.docId = docId;
+      if(this.props.routeParams.id) {
+        //TODO move to route props to state and prevent double init
+        const docId = this.props.routeParams.id;
+        //TODO setState not working here for some reason. fix and fix dup code for doc from store
+        //this.setState({docId });
         const doc = this.props.docs[this.props.schemaName] && docId ?
           this.props.docs[this.props.schemaName][docId] : null;
         if (doc) {
@@ -73,7 +75,6 @@ class DocFormContainer extends Component {
           this.props.transition('DOC_GETTING');
         }
       } else {
-        debugger;
         if(this.props.views.length > 0) {
           this.props.transition('VIEWS_GETTING');
           this.props.views.forEach((view) => {
