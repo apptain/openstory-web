@@ -52,20 +52,22 @@ export const docInitiate = (schemaName, doc, keyField, tempId) => {
 // export const docCreated = (schemaName, doc, keyField, tempId) => action(docCreated, {schemaName, doc, keyField, tempId})
 export const docChange = (schemaName, doc, formData, keyField, id, onChange) => {
   //TODO onChange parameter handling for custom parameter
-  debugger;
   if(doc.meta){
-    // if (onChange) {
-    //   doc = onChange(doc)
-    // }
-    debugger;
 
     var currentValue = Object.assign({}, doc, {})
     delete currentValue.meta
-    const change = diff.map(currentValue, formData);
+    const changes = diff.map(currentValue, formData);
     Object.assign(doc, formData);
 
     //todo losing id
     //todo do not include type: "unchanged" props with changes
+    for(var change in changes) {
+      //TODO modify utility to exclude these by default
+      if(change.type === 'unchanged'){
+        debugger;
+      }
+    }
+
     doc.meta.changeLog.push({
       change,
       dateTime: new Date()
@@ -130,14 +132,11 @@ export default (state = init, action) => {
         actionResultLog: [ ...state.actionResults, actionResult ]
       })
     case viewGetRestCall.REQUEST:
-      if (action.schemaName === 'article')
-      {
-        return Object.assign({}, state, {
-          views: Object.assign({}, state.views, {
-            [action.schemaName]: {
-              loading: true
-            }
-          })
+      return Object.assign({}, state, {
+        views: Object.assign({}, state.views, {
+          [action.schemaName]: {
+            loading: true
+          }
         })
       }
       return state

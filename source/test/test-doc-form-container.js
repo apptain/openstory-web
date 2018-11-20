@@ -1,8 +1,14 @@
 //TOTEST
 
+//
 //Notifies of doc not found in domain
+
+//State
 //New doc is added to redux store with metadata
-//Doc is udate on change
+//Doc is update on change
+//State doc receives form changes
+//Form doc receives state changes
+
 
 
 // "use strict";
