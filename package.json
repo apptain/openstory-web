@@ -23,7 +23,8 @@
     "lint-fix": "npm run lint-hook --fix",
     "hook-add": "prepush install",
     "hook-remove": "prepush remove",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage --updateSnapshot",
+    "test:watch": "jest --watch"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
@@ -61,6 +62,7 @@
     "prepush": "^3.1.11",
     "raw-loader": "^0.5.1",
     "react-svg-loader": "^2.1.0",
+    "react-testing-library": "^5.3.0",
     "redux-logger": "^3.0.6",
     "style-loader": "^0.21.0",
     "svgo": "^1.0.5",
@@ -89,6 +91,9 @@
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "isomorphic-fetch": "^2.2.1",
+    "jest": "^23.6.0",
+    "jest-axe": "^3.1.0",
+    "jest-dom": "^2.1.1",
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
     "node-sass": "^4.9.3",
