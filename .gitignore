@@ -7,3 +7,4 @@ _nogit
 todo.md
 .idea
 coverage
+package.json.lock
