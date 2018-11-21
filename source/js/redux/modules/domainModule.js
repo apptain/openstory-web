@@ -139,7 +139,6 @@ export default (state = init, action) => {
           }
         })
       }
-      return state
     case viewGetRestCall.SUCCESS:
       return Object.assign({}, state, {
         views: Object.assign({}, state.views, {
