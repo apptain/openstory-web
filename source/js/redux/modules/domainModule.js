@@ -138,7 +138,7 @@ export default (state = init, action) => {
             loading: true
           }
         })
-      }
+      });
     case viewGetRestCall.SUCCESS:
       return Object.assign({}, state, {
         views: Object.assign({}, state.views, {
