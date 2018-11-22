@@ -1,5 +1,5 @@
 //thanks https://stackoverflow.com/questions/8572826/generic-deep-diff-between-two-objects
-const diff = function() {
+const diff = function(includeUnchanged) {
   return {
     VALUE_CREATED: 'created',
     VALUE_UPDATED: 'updated',
@@ -41,7 +41,7 @@ const diff = function() {
 
     },
     compareValues: function(value1, value2) {
-      if (value1 === value2) {
+      if (value1 === value2 && includeUnchanged) {
         return this.VALUE_UNCHANGED;
       }
       if (this.isDate(value1) && this.isDate(value2) && value1.getTime() === value2.getTime()) {

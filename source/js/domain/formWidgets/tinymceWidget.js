@@ -22,27 +22,28 @@ export default class tinymceWidget extends Component {
     }
     render() {
         //this is hacky, but the onChange event in react-tinymce isn't firing after initial change
-        // const that = this
-        // const onChange = (event) => {
-        //     const wysi = event.target
-        //     const thatDouble = that
-        //     event.target.on("keyup", () => {
-        //         const value = wysi.getContent()
-        //         if(thatDouble.props.onChange) {
-        //             thatDouble.props.onChange(value)
-        //         }
-        //     })
-        //     const value = wysi.getContent()
-        //     if(that.props.onChange) {
-        //         that.props.onChange(value)
-        //     }
-        // }
+        const that = this
+        const onChange = (event) => {
+          debugger;
+          const wysi = event.target
+          const thatDouble = that
+          event.target.on("keyup", () => {
+              const value = wysi.getContent()
+              if(thatDouble.props.onChange) {
+                  thatDouble.props.onChange(value)
+              }
+          })
+          const value = wysi.getContent()
+          if(that.props.onChange) {
+              that.props.onChange(value)
+          }
+        }
         return (
           <div>
             <TinyMCE
                 id={this.props.id}
                 className={this.props.id}
-                //onChange={onChange}
+                onChange={onChange}
                 content={this.props.value}
                 config={{
                     branding: false,

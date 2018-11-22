@@ -6,10 +6,11 @@ import debounce from 'debounce';
 import $ from 'jquery';
 
 import Form from 'react-jsonschema-form';
+import CustomSchemaField from 'domain/formWidgets/CustomSchemaField';
 import formWidgets from 'domain/formWidgets/index';
 import CustomFieldTemplate from 'domain/customFieldTemplate';
 // import {fetchDoc, createDoc, updateDoc} from '../../services/apiCalls';
-import {docChange, docInitiate, viewGetFetch} from '../../../redux/modules/domainModule';
+import {docChange, docInitiate, docFieldChange, viewGetFetch} from '../../../redux/modules/domainModule';
 import { Action, withStateMachine } from 'react-automata';
 import { docFormStateMachine } from 'machines/docStateMachines';
 
@@ -19,7 +20,6 @@ import createHistory from 'history/createBrowserHistory';
 
 const history = createHistory();
 
-//TODO dup code move to utils
 function debounceEventHandler(...args) {
   const debounced = debounce(...args)
   return function (e) {
@@ -113,15 +113,10 @@ class DocFormContainer extends Component {
   docSave(form){
     //TODO
   }
-  docChange = form => {
-    debugger;
-    if(form){
-      //form != doc - doc from state should be compared/and update from form change
-      const doc = this.props.docs[this.props.schemaName] && this.state.docId ?
-        this.props.docs[this.props.schemaName][this.state.docId] : null;
-      this.props.docChange(this.props.schemaName, doc, form.formData,
-        this.props.keyField, this.state.docId, this.props.docChange);
-    }
+  onFieldChange = (fieldName, newValue) => {
+    const doc = this.props.docs[this.props.schemaName] && this.state.docId ?
+      this.props.docs[this.props.schemaName][this.state.docId] : null;
+    this.props.docFieldChange(doc, fieldName, newValue, this.props.docChange);
   }
   render() {
     const doc = this.state.doc || {}
@@ -129,7 +124,11 @@ class DocFormContainer extends Component {
     const schema = this.props.schemaFunc()
 
     //300 millisecond delay for debounce of form change
-    const docChangeDebounced = debounceEventHandler(this.docChange, 300);
+    //const docChangeDebounced = debounceEventHandler(this.docChange, 300);
+
+    const formContext = {
+      onFieldChange: this.onFieldChange //debounceEventHandler(this.onFieldChange, 300)
+    };
 
     return (
       <div className="doc-form-container">
@@ -145,11 +144,13 @@ class DocFormContainer extends Component {
               formData={ doc }
               uiSchema={this.props.uiSchema()}
               validate={this.props.validate}
-              onChange={docChangeDebounced}
+              // onChange={docChangeDebounced}
               onSubmit={this.docSave}
               //transformErrors={this.props.transformErrors}
               widgets={formWidgets}
+              fields={{ SchemaField: CustomSchemaField }}
               FieldTemplate={CustomFieldTemplate}
+              formContext={ formContext }
             />
           </div>
         </Action>
@@ -173,6 +174,9 @@ var mapDispatchToProps = function (dispatch) {
     },
     docChange(schemaName, doc, formData, keyField, id, onChange){
       dispatch(docChange(schemaName, doc, formData, keyField, id, onChange))
+    },
+    docFieldChange(doc, fieldName, newValue, docChange) {
+      dispatch(docFieldChange(doc, fieldName, newValue, docChange));
     }
   }
 }
@@ -185,7 +189,7 @@ const statechart = {
       onEntry: 'initializing',
       on: {
         DOC_SELECTED: 'ready',
-        DOC_INITIATED: 'ready',
+        DOC_INITIATED: 'ready'
       }
     },
     initializeError: {},

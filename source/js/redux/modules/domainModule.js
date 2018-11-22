@@ -26,9 +26,9 @@ export const docUpdateRestCall = createRestAction('DOC_UPDATE_REST_CALL')
 export const viewGetFetch = (schemaName, apiCall, parameters, transform) => action(viewGetFetch, {schemaName, apiCall, parameters, transform})
 export const viewSet = (schemaName, view) => action(viewSet, {schemaName, view})
 
-export const docGetFetch = (schemaName, apiCall, id, transform, keyField) => action(docGetFetch, {schemaName, apiCall, id, transform, keyField})
-export const docCreateFetch = (schemaName, apiCall, doc, formToDomainDoc, domainToFormDoc, keyField) => action(docCreateFetch, {schemaName, apiCall, doc, formToDomainDoc, domainToFormDoc, keyField})
-export const docUpdateFetch = (schemaName, apiCall, doc, id, formToDomainDoc, domainToFormDoc, keyField) => action(docUpdateFetch, {schemaName, apiCall, doc, id, formToDomainDoc, domainToFormDoc, keyField })
+export const docGetFetch = (schemaName, apiCall, id, transform, keyField) => action(docGetFetch, {schemaName, apiCall, id, transform, keyField});
+export const docCreateFetch = (schemaName, apiCall, doc, formToDomainDoc, domainToFormDoc, keyField) => action(docCreateFetch, {schemaName, apiCall, doc, formToDomainDoc, domainToFormDoc, keyField});
+export const docUpdateFetch = (schemaName, apiCall, doc, id, formToDomainDoc, domainToFormDoc, keyField) => action(docUpdateFetch, {schemaName, apiCall, doc, id, formToDomainDoc, domainToFormDoc, keyField });
 
 //these are non-rest related actions that meta-tag a doc and
 //these should not be handle for asynchronicity with sagas
@@ -48,38 +48,46 @@ export const docInitiate = (schemaName, doc, keyField, tempId) => {
   return {type: docInitiate, schemaName, doc: newDoc, keyField, tempId}
 }
 
-
-// export const docCreated = (schemaName, doc, keyField, tempId) => action(docCreated, {schemaName, doc, keyField, tempId})
 export const docChange = (schemaName, doc, formData, keyField, id, onChange) => {
+  //TODO get doc from state instead of requiring pass
   //TODO onChange parameter handling for custom parameter
-  if(doc.meta){
-
-    var currentValue = Object.assign({}, doc, {})
-    delete currentValue.meta
+  if(doc.meta) {
+    debugger;
+    var currentValue = Object.assign({}, doc, {});
     const changes = diff.map(currentValue, formData);
     Object.assign(doc, formData);
 
-    //todo losing id
-    //todo do not include type: "unchanged" props with changes
-    for(var change in changes) {
-      //TODO modify utility to exclude these by default
-      if(change.type === 'unchanged'){
-        debugger;
-      }
-    }
+    // doc.meta.changeLog.push({
+    //   changes,
+    //   dateTime: new Date()
+    // });
 
-    doc.meta.changeLog.push({
-      change,
-      dateTime: new Date()
-    });
-
-    doc.meta.previousValue = doc.meta.currentValue
-    doc.meta.currentValue = currentValue
+    doc.meta.previousValue = currentValue;
 
     return {type: docChange, schemaName, doc, keyField, id };
   }
   return {type: ''};
- }
+}
+
+export const docFieldChange = (doc, fieldName, newValue, docChange) => {
+  //TODO docChange
+  debugger;
+  if(doc.meta) {
+    var change = {
+      field: fieldName,
+      previousValue: doc[fieldName],
+      newValue,
+      dateTime: new Date()
+    };
+    doc[fieldName] = newValue;
+    doc.meta.changeLog.push(change);
+    const schemaName = doc.meta.schemaName;
+    const keyField =  doc.meta.keyField;
+    const id = doc[doc.meta.keyField];
+    return {type: docChange, schemaName, doc, keyField, id };
+  }
+  return {type: ''};
+}
 
 // export const docChanged = (schemaName, doc, keyField, id) => action(docChanged, {schemaName, doc, keyField, id})
 
