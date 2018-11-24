@@ -1,11 +1,11 @@
-import React, {Container, Component} from 'react';
+import React, {Container, Component, Suspense} from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import debounce from 'debounce';
 //TODO get jquery out, only used to allow for easier automated submit button click
 import $ from 'jquery';
 
-import Form from 'react-jsonschema-form';
+const Form = React.lazy(() => import('react-jsonschema-form'));
 import CustomSchemaField from 'domain/formWidgets/CustomSchemaField';
 import formWidgets from 'domain/formWidgets/index';
 import CustomFieldTemplate from 'domain/customFieldTemplate';
@@ -16,15 +16,14 @@ import { docFormStateMachine } from 'machines/docStateMachines';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
-import createHistory from 'history/createBrowserHistory';
-
-const history = createHistory();
+import { createMemoryHistory } from 'history';
+const history = createMemoryHistory();
 
 function debounceEventHandler(...args) {
   const debounced = debounce(...args)
   return function (e) {
-    return debounced(e)
-  }
+    return debounced(e);
+  };
 }
 
 class DocFormContainer extends Component {
@@ -137,21 +136,23 @@ class DocFormContainer extends Component {
         </Action>
         <Action is="ready">
           <div className="container">
-            <Form
-              safeRenderCompletion={true}
-              formContext={this.state.doc}
-              schema={schema}
-              formData={ doc }
-              uiSchema={this.props.uiSchema()}
-              validate={this.props.validate}
-              // onChange={docChangeDebounced}
-              onSubmit={this.docSave}
-              //transformErrors={this.props.transformErrors}
-              widgets={formWidgets}
-              fields={{ SchemaField: CustomSchemaField }}
-              FieldTemplate={CustomFieldTemplate}
-              formContext={ formContext }
-            />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Form
+                safeRenderCompletion={true}
+                formContext={this.state.doc}
+                schema={schema}
+                formData={ doc }
+                uiSchema={this.props.uiSchema()}
+                validate={this.props.validate}
+                // onChange={docChangeDebounced}
+                onSubmit={this.docSave}
+                //transformErrors={this.props.transformErrors}
+                widgets={formWidgets}
+                fields={{ SchemaField: CustomSchemaField }}
+                FieldTemplate={CustomFieldTemplate}
+                formContext={ formContext }
+              />
+            </Suspense>
           </div>
         </Action>
       </div>

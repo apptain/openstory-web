@@ -42,10 +42,10 @@ const IS_PRODUCTION = NODE_ENV === 'production';
 // Shared plugins
 const plugins = [
   // Extracts CSS to a file
-  // new MiniCssExtractPlugin({
-  //   filename: "style.css",
-  //   chunkFilename: "[name].css"
-  // }),
+  new MiniCssExtractPlugin({
+    filename: "style.css",
+    chunkFilename: "[name].css"
+  }),
   // new ExtractTextPlugin(
   //   {filename: 'style.css'}
   // ),

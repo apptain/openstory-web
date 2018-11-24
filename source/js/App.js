@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Container, Component, Suspense} from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch } from 'react-router-dom';
 import { hot } from 'react-hot-loader';
@@ -22,7 +22,6 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
 import { routeCodes } from 'constants/routes';
-import Menu from 'components/global/menu';
 import Home from 'containers/Home';
 import Login from 'containers/Login';
 import LoginFacebook from 'containers/LoginFacebook';
@@ -34,6 +33,8 @@ import AccountForm from 'components/account/AccountForm';
 import AuthorApplicationWizard from 'components/author/AuthorApplicationWizard';
 import AuthorList from 'containers/AuthorList';
 import AuthorAdmin from 'components/author/AuthorAdmin';
+
+const Menu = React.lazy(() => import('components/global/menu'));
 
 const drawerWidth = 240;
 
@@ -149,7 +150,9 @@ class App extends React.Component {
             </IconButton>
           </div>
           <Divider />
-          <Menu />
+          <Suspense fallback={<div></div>}>
+            <Menu />
+          </Suspense>
         </Drawer>
         <main
           className={classNames(classes.content, {
@@ -160,11 +163,8 @@ class App extends React.Component {
           <div className='Page'>
             <Switch>
               <Route exact path={ routeCodes.HOME } component={ Home } />
-              <Route path={ routeCodes.AUTHOR_APPLICATION } component={ AuthorApplicationWizard } />
               {/*TODO Authenticate Routes*/}
               <Route path={ routeCodes.ACCOUNT_FORM } component={ AccountForm } />
-              <Route path={ routeCodes.AUTHOR_LIST } component={ AuthorList } />
-              <Route path={ routeCodes.AUTHOR_ADMIN } component={ AuthorAdmin } />
             </Switch>
           </div>
         </main>

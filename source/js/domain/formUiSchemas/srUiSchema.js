@@ -9,7 +9,6 @@ export default function () {
           classNames: 'col-sm-6 clear'
       },
       desription: {
-        'ui:widget': 'tinymceWidget',
         classNames: 'col-sm-6 clear'
       },
         application: {
@@ -19,11 +18,9 @@ export default function () {
             classNames: 'col-sm-3'
         },
         details: {
-            'ui:widget': 'tinymceWidget',
             classNames: 'col-sm-6 summary'
         },
         priority: {
-            'ui:widget': 'toggledSubformWidget',
             classNames: 'col-sm-2 toggled-field',
             urgency: {
                 classNames: 'col-sm-6'
@@ -73,11 +70,11 @@ export default function () {
             classNames: 'col-sm-6 toggled-field float-left clear worklog-link'
         },
         worklogEntry: {
-            'ui:widget': 'tinymceWidget',
+
             classNames: 'col-sm-6'
         },
         resolution: {
-            'ui:widget': 'tinymceWidget',
+
             classNames: 'col-sm-6 float-right'
         }
     }
