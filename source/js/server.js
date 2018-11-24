@@ -9,7 +9,7 @@ import { Provider } from 'react-redux';
 
 import transit from 'transit-immutable-js';
 
-import configureStore from 'config/store';
+import configureStore from 'store/store.server.js';
 import getServerHtml from 'components/server/ServerHTML';
 import App from 'App';
 
@@ -112,10 +112,10 @@ app.get('/admin', (req, res) => {
   res.sendFile(path.resolve('build-client-render/index.html'));
 });
 
-// // All other routes
-// app.use((req, res) => {
-//   handleRequest(req, res);
-// });
+// All other routes
+app.use((req, res) => {
+  handleRequest(req, res);
+});
 
 // Error handling
 app.use((error, req, res) => {

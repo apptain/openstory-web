@@ -5,7 +5,7 @@ export default {
   devtool: 'inline-source-map',
 
   entry: [
-    path.resolve('source/js/src/index.js')
+    path.resolve('source/js/serverClientRender.js')
   ],
   target: 'web',
   output: {

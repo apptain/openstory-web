@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
-import configureStore from 'config/store';
+import configureStore from 'store/store.client';
 import App from 'App';
 
 // Load CSS

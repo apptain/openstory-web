@@ -23,16 +23,6 @@ import MailIcon from '@material-ui/icons/Mail';
 
 import { routeCodes } from 'constants/routes';
 import Home from 'containers/Home';
-import Login from 'containers/Login';
-import LoginFacebook from 'containers/LoginFacebook';
-import LoginTwitter from 'containers/LoginTwitter';
-import StoryForm from 'containers/StoryForm';
-import StoryView from 'containers/StoryView';
-import NotFound from 'components/NotFound';
-import AccountForm from 'components/account/AccountForm';
-import AuthorApplicationWizard from 'components/author/AuthorApplicationWizard';
-import AuthorList from 'containers/AuthorList';
-import AuthorAdmin from 'components/author/AuthorAdmin';
 
 const Menu = React.lazy(() => import('components/global/menu'));
 
@@ -164,7 +154,6 @@ class App extends React.Component {
             <Switch>
               <Route exact path={ routeCodes.HOME } component={ Home } />
               {/*TODO Authenticate Routes*/}
-              <Route path={ routeCodes.ACCOUNT_FORM } component={ AccountForm } />
             </Switch>
           </div>
         </main>
