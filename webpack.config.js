@@ -53,7 +53,8 @@ if (IS_DEVELOPMENT) {
 }
 
 // Webpack config
-module.exports = {
+module.exports = [{
+  name: "marvin",
   mode: IS_PRODUCTION ? 'production' : 'development',
   devtool: IS_PRODUCTION ? false : 'source-map',
   context: paths.javascript,
@@ -87,4 +88,21 @@ module.exports = {
       },
     },
   },
-};
+}, {
+  name: 'clientOnly',
+  devtool: 'inline-source-map',
+  entry: [
+    path.resolve('source/js/src/index.js')
+  ],
+  target: 'web',
+  output: {
+    path: path.join(__dirname, 'build-client-render'),
+    publicPath: '/',
+    filename: 'index.js'
+  },
+  module: {
+    rules: [
+      { test: /\.js$/, exclude: /node_modules/, use: ['babel-loader'] },
+    ],
+  },
+}];

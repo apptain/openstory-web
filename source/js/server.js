@@ -22,6 +22,14 @@ const app = express();
 const hostname = 'localhost';
 const port = 7000;
 
+const clientPort = 9090;
+
+import path from 'path';
+import webpack from 'webpack';
+
+import clientRenderConfig from '../../webpack.config.dev';
+const clientCompiler = webpack(clientRenderConfig);
+
 // ENV
 const IS_DEVELOPMENT = app.get('env') === 'development';
 
@@ -30,6 +38,7 @@ app.disable('x-powered-by');
 
 // Telling server to serve our client app build as static assets
 app.use('/client', express.static('build/client'));
+
 
 function sendResponse(req, res, store) {
   // Dehydrates the state
@@ -90,14 +99,23 @@ function handleRequest(req, res, sagas = null, sagaArgs = {}) {
 // pass two additional params to "handleRequest"
 // array of sagas which should be completed
 // and object containing saga's options (usually req.params)
-app.get('/', (req, res) => {
-  handleRequest(req, res, [getStoriesServer]);
+// app.get('/', (req, res) => {
+//   handleRequest(req, res, [getStoriesServer]);
+// });
+
+// app.use(require('webpack-dev-middleware')(clientCompiler, {
+//   noInfo: true,
+//   publicPath: clientRenderConfig.output.publicPath
+// }));
+
+app.get('/admin', (req, res) => {
+  res.sendFile(path.resolve('build-client-render/index.html'));
 });
 
-// All other routes
-app.use((req, res) => {
-  handleRequest(req, res);
-});
+// // All other routes
+// app.use((req, res) => {
+//   handleRequest(req, res);
+// });
 
 // Error handling
 app.use((error, req, res) => {
