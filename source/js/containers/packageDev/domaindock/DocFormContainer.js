@@ -6,6 +6,7 @@ import debounce from 'debounce';
 import $ from 'jquery';
 
 import Form from 'react-jsonschema-form';
+import { Redirect } from 'react-router;
 import CustomSchemaField from 'domain/formWidgets/CustomSchemaField';
 import formWidgets from 'domain/formWidgets/index';
 import CustomFieldTemplate from 'domain/customFieldTemplate';
@@ -34,7 +35,8 @@ class DocFormContainer extends Component {
     uiSchema: PropTypes.func,
     validate: PropTypes.func,
     keyField: PropTypes.string,
-    defaultDoc: PropTypes.object,
+    docId: PropTypes.string,
+    docDefault: PropTypes.object,
     formToDomainDoc: PropTypes.func,
     domainToFormDoc: PropTypes.func,
     getDocViewFetch: PropTypes.func,
@@ -46,7 +48,7 @@ class DocFormContainer extends Component {
   constructor(props){
     super(props);
     this.state = {
-      docId: props.docId || '',
+      docId: props.docId || this.props.routeParams.id,
       doc: props.doc || null
     };
   }
@@ -55,7 +57,6 @@ class DocFormContainer extends Component {
       views: []
     };
   }
-
   causeSubmit(){
     $('[type=submit]').click()
   }
@@ -64,51 +65,50 @@ class DocFormContainer extends Component {
     //   this.setState({variableInState: newProps.variableInProps })
     // }
   }
-  componentDidMount(){
-    if(this.state.docId) {
-      this.props.transition('DOC_INITIATED');
-    } else {
-      const docId = this.props.routeParams.id || this.state.docId;
-      if(docId) {
-        //TODO setState not working here for some reason. fix and fix dup code for doc from store
-        this.setState({docId });
-        const doc = this.props.docs[this.props.schemaName] && docId ?
-          this.props.docs[this.props.schemaName][docId] : null;
-        if (doc) {
-          this.setState({doc});
-          this.props.transition('DOC_SELECTED');
-        } else {
-          //TODO doc getting REST call
-          this.props.transition('DOC_GETTING');
-        }
-      } else {
-        if(this.props.views.length > 0) {
-          this.props.transition('VIEWS_GETTING');
-          this.props.views.forEach((view) => {
-            //TODO wire up
-          })
-        }
-        // if (!form.meta) {
-        //this.props.transition('DOC_INITIATING');
-        const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
-          s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h))
-
-        const tempId = ObjectId();
-        this.setState({ docId: tempId });
-        //TODO default doc props
-        this.props.docInitiate(this.props.schemaName, {}, this.props.keyField, tempId);
-        this.props.transition('DOC_INITIATED');
-      }
-    }
-
-    //disable enter key submit
-    $(document).ready(function() {
-      $("form").bind("keypress", function (e) {
-        if (e.keyCode == 13) {
-          return false;
-        }
-      });
-    });
+  componentWillMount(){
+    // if(this.state.docId) {
+    //   this.props.transition('DOC_INITIATED');
+    // } else {
+    //   const docId = this.props.routeParams.id || this.state.docId;
+    //   if(docId) {
+    //     //TODO setState not working here for some reason. fix and fix dup code for doc from store
+    //     this.setState({docId });
+    //     const doc = this.props.docs[this.props.schemaName] && docId ?
+    //       this.props.docs[this.props.schemaName][docId] : null;
+    //     if (doc) {
+    //       this.setState({doc});
+    //       this.props.transition('DOC_SELECTED');
+    //     } else {
+    //       //TODO doc getting REST call
+    //       this.props.transition('DOC_GETTING');
+    //     }
+    //   } else {
+    //     if(this.props.views.length > 0) {
+    //       this.props.transition('VIEWS_GETTING');
+    //       this.props.views.forEach((view) => {
+    //         //TODO wire up
+    //       })
+    //     }
+    //     // if (!form.meta) {
+    //     //this.props.transition('DOC_INITIATING');
+    //
+    //
+    //     const tempId = ObjectId();
+    //     this.setState({ docId: tempId });
+    //     //TODO default doc props
+    //     this.props.docInitiate(this.props.schemaName, {}, this.props.keyField, tempId);
+    //     this.props.transition('DOC_INITIATED');
+    //   }
+    // }
+    //
+    // //disable enter key submit
+    // $(document).ready(function() {
+    //   $("form").bind("keypress", function (e) {
+    //     if (e.keyCode == 13) {
+    //       return false;
+    //     }
+    //   });
+    // });
   }
   docSave(form){
     //TODO
@@ -117,8 +117,23 @@ class DocFormContainer extends Component {
     const doc = this.props.docs[this.props.schemaName] && this.state.docId ?
       this.props.docs[this.props.schemaName][this.state.docId] : null;
     this.props.docFieldChange(doc, fieldName, newValue, this.props.docChange);
-  }
-  render() {
+    }
+    render() {
+    debugger;
+      if(!this.props.routeParams.id || this.state.docId) {
+        const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
+          s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
+        const tempId = ObjectId();
+        return (
+          <Redirect
+            to={{
+              pathname: `${history.location.pathname}/${tempId}`,
+              state: { docId: currentLocation },
+            }}
+          />
+        )
+      }
+
     const doc = this.state.doc || {}
     //TODO passing of views to schema
     const schema = this.props.schemaFunc()
@@ -129,6 +144,8 @@ class DocFormContainer extends Component {
     const formContext = {
       onFieldChange: this.onFieldChange //debounceEventHandler(this.onFieldChange, 300)
     };
+
+
 
     return (
       <div className="doc-form-container">
@@ -170,7 +187,7 @@ var mapDispatchToProps = function (dispatch) {
   return {
     docInitiate(schemaName, doc, keyField, tempId) {
       dispatch(docInitiate(schemaName, doc, keyField, tempId));
-      history.push(`${history.location.pathname}/${tempId}`, { state: {id: tempId} });
+      // history.push(`${history.location.pathname}/${tempId}`, { state: {id: tempId} });
     },
     docChange(schemaName, doc, formData, keyField, id, onChange){
       dispatch(docChange(schemaName, doc, formData, keyField, id, onChange))
