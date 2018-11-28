@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 
-import DocFormContainer from 'containers/packageDev/docdomain/DocFormContainer';
-import DocHistoryContainer from 'containers/packageDev/docdomain/DocHistoryContainer';
+import DocFormContainer from 'containers/packageDev/domaindock/DocFormContainer';
+import DocHistoryContainer from 'containers/packageDev/domaindock/DocHistoryContainer';
 
 import srSchemaFunc from 'domain/formSchemas/srSchemaFunc';
 import srUiSchema from 'domain/formUiSchemas/srUiSchema';

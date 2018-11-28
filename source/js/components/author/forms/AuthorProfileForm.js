@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import DocFormContainer from 'containers/packageDev/docdomain/DocFormContainer';
+import DocFormContainer from 'containers/packageDev/domaindock/DocFormContainer';
 
 import srSchemaFunc from 'domain/formSchemas/srSchemaFunc';
 import srUiSchema from 'domain/formUiSchemas/srUiSchema';

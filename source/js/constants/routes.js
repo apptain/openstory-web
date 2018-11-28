@@ -12,4 +12,7 @@ export const routeCodes = {
   AUTHOR_LIST: `${ publicPath }admin/authors`,
   AUTHOR_APPLICATION: `${ publicPath }author/application/:id?`,
   AUTHOR_ADMIN: `${ publicPath }admin/author/:id/:subForm?/:subDocId?`,
+  SCHEMA: `${ publicPath }/dockdomain`,
+  DOC_GRID: `${ publicPath }/dockdomain/:schemaName`,
+  DOC_FORM: `${ publicPath }/dockdomain/:schemaName/:id?/:subForm?/:subDocId?`,
 };

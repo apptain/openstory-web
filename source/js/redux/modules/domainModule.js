@@ -1,4 +1,7 @@
 import diff from 'utils/diff';
+import schemaSchema from 'domain/formSchemas/schemaSchema';
+import schemaUiSchema from 'domain/formUiSchemas/schemaUiSchema';
+import schemaColumnDefinitions from 'domain/columnDefs/schemaColumnDefinitions';
 
 export const DocState = {
   blank: "BLANK",
@@ -52,7 +55,7 @@ export const docChange = (schemaName, doc, formData, keyField, id, onChange) => 
   //TODO get doc from state instead of requiring pass
   //TODO onChange parameter handling for custom parameter
   if(doc.meta) {
-    debugger;
+
     var currentValue = Object.assign({}, doc, {});
     const changes = diff.map(currentValue, formData);
     Object.assign(doc, formData);
@@ -71,7 +74,7 @@ export const docChange = (schemaName, doc, formData, keyField, id, onChange) => 
 
 export const docFieldChange = (doc, fieldName, newValue, docChange) => {
   //TODO docChange
-  debugger;
+
   if(doc.meta) {
     var change = {
       field: fieldName,
@@ -104,15 +107,21 @@ const actionResultTypes = {
 }
 
 const init = {
-  docs:{},
-  docsFetching:{},
-  views:{},
-  viewsFetching:{},
-  selectedDocs:{},
-  datasets:{},
-  actionResult: null,
+  docs: {
+
+  },
+  schemas: {
+    schema: {
+      name: 'Schema',
+      slug: 'schema',
+      schema: JSON.stringify(schemaSchema),
+      uiSchema: JSON.stringify(schemaUiSchema),
+      columnDefinitions: JSON.stringify(schemaColumnDefinitions),
+    }
+  },
   actionResultLog: []
 }
+
 
 export default (state = init, action) => {
   var actionResult
@@ -268,7 +277,7 @@ export default (state = init, action) => {
       });
       return updatedState;
     case clearHistory:
-      debugger;
+
       //TODO move me somewhere
       localStorage.clear()
       return Object.assign({}, state, init)

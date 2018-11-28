@@ -14,11 +14,11 @@ class DocHistoryContainer extends Component {
       schemaName: PropTypes.string
   }
   docHref(doc){
-      if(doc.meta.id && doc.meta.id == doc[doc.meta.keyField]){
-          return location.origin + '/' + this.props.schemaName + '/' + doc.meta.id
-      } else {
-          return location.origin + '?id=' + doc.meta.id
-      }
+    if(doc.meta.id && doc.meta.id == doc[doc.meta.keyField]){
+      return location.origin + '/' + this.props.schemaName + '/' + doc.meta.id
+    } else {
+      return location.origin + '?id=' + doc.meta.id
+    }
   }
   renderDocHistoryItem(doc, index){
     //TODO statemachine in meta
@@ -35,7 +35,7 @@ class DocHistoryContainer extends Component {
     )
   }
   clearHistory() {
-    debugger;
+
     this.props.clearHistory(this.props.schemaName);
   }
   render() {
@@ -73,7 +73,7 @@ var mapStateToProps = function (state) {
 var mapDispatchToProps = function (dispatch) {
     return {
         clearHistory(schemaName) {
-          debugger;
+
           dispatch(clearHistory());
         },
     }

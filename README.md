@@ -16,5 +16,6 @@ Also demos use of material, state charts, and redux modules shareable with react
 * Clean up webpack config
 * Implement scss theming
 
-#docdomain TODOS
+#domaindock TODOS
 * Utility for handling functions or objects for schmemas
+* Loading animations

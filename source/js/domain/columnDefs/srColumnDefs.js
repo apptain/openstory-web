@@ -12,10 +12,9 @@ export default function srColumnDefs(props) {
             header: '',
             render: data => {
                 return (
-                    <a onClick={props.onRowSelected.bind(this, data.row)} className="pnnl-action" >
-                        <span className="pnnl-icon-edit"></span>
-                        <small>Edit</small>
-                    </a>
+                  <a onClick={props.onRowSelected.bind(this, data.row)}  >
+                      <small>Edit</small>
+                  </a>
                 )
             }
         }

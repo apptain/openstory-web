@@ -6,7 +6,7 @@ import debounce from 'debounce';
 import $ from 'jquery';
 
 import Form from 'react-jsonschema-form';
-import { Redirect } from 'react-router;
+import { Redirect } from 'react-router';
 import CustomSchemaField from 'domain/formWidgets/CustomSchemaField';
 import formWidgets from 'domain/formWidgets/index';
 import CustomFieldTemplate from 'domain/customFieldTemplate';
@@ -54,61 +54,21 @@ class DocFormContainer extends Component {
   }
   static get defaultProps() {
     return {
-      views: []
+      views: [],
     };
   }
   causeSubmit(){
     $('[type=submit]').click()
   }
-  componentWillReceiveProps(newProps){
-    // if(newProps.variableInProps != this.props.variableInProps){
-    //   this.setState({variableInState: newProps.variableInProps })
-    // }
-  }
-  componentWillMount(){
-    // if(this.state.docId) {
-    //   this.props.transition('DOC_INITIATED');
-    // } else {
-    //   const docId = this.props.routeParams.id || this.state.docId;
-    //   if(docId) {
-    //     //TODO setState not working here for some reason. fix and fix dup code for doc from store
-    //     this.setState({docId });
-    //     const doc = this.props.docs[this.props.schemaName] && docId ?
-    //       this.props.docs[this.props.schemaName][docId] : null;
-    //     if (doc) {
-    //       this.setState({doc});
-    //       this.props.transition('DOC_SELECTED');
-    //     } else {
-    //       //TODO doc getting REST call
-    //       this.props.transition('DOC_GETTING');
-    //     }
-    //   } else {
-    //     if(this.props.views.length > 0) {
-    //       this.props.transition('VIEWS_GETTING');
-    //       this.props.views.forEach((view) => {
-    //         //TODO wire up
-    //       })
-    //     }
-    //     // if (!form.meta) {
-    //     //this.props.transition('DOC_INITIATING');
-    //
-    //
-    //     const tempId = ObjectId();
-    //     this.setState({ docId: tempId });
-    //     //TODO default doc props
-    //     this.props.docInitiate(this.props.schemaName, {}, this.props.keyField, tempId);
-    //     this.props.transition('DOC_INITIATED');
-    //   }
-    // }
-    //
-    // //disable enter key submit
-    // $(document).ready(function() {
-    //   $("form").bind("keypress", function (e) {
-    //     if (e.keyCode == 13) {
-    //       return false;
-    //     }
-    //   });
-    // });
+  componenDidMount(){
+    //disable enter key submit
+    $(document).ready(function() {
+      $("form").bind("keypress", function (e) {
+        if (e.keyCode == 13) {
+          return false;
+        }
+      });
+    });
   }
   docSave(form){
     //TODO
@@ -117,35 +77,47 @@ class DocFormContainer extends Component {
     const doc = this.props.docs[this.props.schemaName] && this.state.docId ?
       this.props.docs[this.props.schemaName][this.state.docId] : null;
     this.props.docFieldChange(doc, fieldName, newValue, this.props.docChange);
-    }
-    render() {
-    debugger;
-      if(!this.props.routeParams.id || this.state.docId) {
-        const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
-          s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
-        const tempId = ObjectId();
-        return (
-          <Redirect
-            to={{
-              pathname: `${history.location.pathname}/${tempId}`,
-              state: { docId: currentLocation },
-            }}
-          />
-        )
+  }
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const docId = nextProps.params ? nextProps.params.id : null ||
+      nextProps.routeParams.id;
+    if(id && !prevState.doc) {
+      const doc = nextProps.docs[nextProps.schemaName] ?
+        nextProps.docs[nextProps.schemaName][docId] : null;
+      if (doc) {
+        nextProps.transition('DOC_SELECTED');
+        return { docId: nextProps.routeParams.id, doc };
+        //nextProps.transition('DOC_INITIATED');
+      } else {
+        //sets state
+        return { docId };
       }
+    }
+    return null;
+  }
+  render() {
+    if (!this.state.docId) {
+      const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
+        s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
+      const tempId = ObjectId();
+      this.props.docInitiate(this.props.schemaName, {}, this.props.keyField, tempId);
 
-    const doc = this.state.doc || {}
-    //TODO passing of views to schema
-    const schema = this.props.schemaFunc()
+      return (
+        <Redirect
+          to={{
+            pathname: `${history.location.pathname}/${tempId}`,
+            state: { docId: tempId },
+          }}
+        />
+      );
+    }
 
-    //300 millisecond delay for debounce of form change
-    //const docChangeDebounced = debounceEventHandler(this.docChange, 300);
+    const doc = this.state.doc || {};
+    const schema = this.props.schemaFunc();
 
     const formContext = {
-      onFieldChange: this.onFieldChange //debounceEventHandler(this.onFieldChange, 300)
+      onFieldChange: this.onFieldChange
     };
-
-
 
     return (
       <div className="doc-form-container">
@@ -155,19 +127,18 @@ class DocFormContainer extends Component {
         <Action is="ready">
           <div className="container">
             <Form
-              safeRenderCompletion={true}
-              formContext={this.state.doc}
-              schema={schema}
-              formData={ doc }
-              uiSchema={this.props.uiSchema()}
-              validate={this.props.validate}
-              // onChange={docChangeDebounced}
-              onSubmit={this.docSave}
-              //transformErrors={this.props.transformErrors}
-              widgets={formWidgets}
-              fields={{ SchemaField: CustomSchemaField }}
-              FieldTemplate={CustomFieldTemplate}
+              safeRenderCompletion={ true }
               formContext={ formContext }
+              schema={ schema }
+              formData={ doc }
+              uiSchema={ this.props.uiSchema() }
+              validate={ this.props.validate }
+              // onChange={docChangeDebounced}
+              onSubmit={ this.docSave }
+              //transformErrors={this.props.transformErrors}
+              widgets={ formWidgets }
+              fields={{ SchemaField: CustomSchemaField }}
+              FieldTemplate={ CustomFieldTemplate }
             />
           </div>
         </Action>
@@ -180,7 +151,7 @@ var mapStateToProps = function (state) {
   return {
     docs: state.domain.docs,
     views: state.domain.views,
-  }
+  };
 }
 
 var mapDispatchToProps = function (dispatch) {

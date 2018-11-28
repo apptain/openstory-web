@@ -5,6 +5,8 @@ import { hot } from 'react-hot-loader';
 
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import apptainLogo from 'img/apptainLogo.png';
+
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -22,6 +24,8 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 
 import { routeCodes } from 'constants/routes';
+import SchemaMasterDetails from 'components/SchemaMasterDetails';
+import DocFormContainer from 'containers/packageDev/domaindock/DocFormContainer';
 import Menu from 'components/global/menu';
 import Home from 'containers/Home';
 import Login from 'containers/Login';
@@ -46,6 +50,21 @@ const styles = theme => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
+  },
+  logoContainer: {
+    display: 'flex',
+    width: '20%',
+    height: '60px',
+    marginLeft: '66%',
+    backgroundColor: 'lightgrey',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '5px',
+  },
+  logo: {
+    //half the logo dimensions
+    width: '90px',
+    height: '60px'
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -129,9 +148,12 @@ class App extends React.Component {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" noWrap>
-
-            </Typography>
+            <div className={ classes.logoContainer }>
+              <img className={ classes.logo }
+                src={ apptainLogo }
+                alt='Apptain'
+              />
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -160,8 +182,9 @@ class App extends React.Component {
           <div className='Page'>
             <Switch>
               <Route exact path={ routeCodes.HOME } component={ Home } />
+              <Route path={ routeCodes.SCHEMA } component={ SchemaMasterDetails } />
+              <Route path={ routeCodes.DOC_FORM } component={ DocFormContainer } />
               <Route path={ routeCodes.AUTHOR_APPLICATION } component={ AuthorApplicationWizard } />
-              {/*TODO Authenticate Routes*/}
               <Route path={ routeCodes.ACCOUNT_FORM } component={ AccountForm } />
               <Route path={ routeCodes.AUTHOR_LIST } component={ AuthorList } />
               <Route path={ routeCodes.AUTHOR_ADMIN } component={ AuthorAdmin } />

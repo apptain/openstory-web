@@ -24,7 +24,7 @@ export default class tinymceWidget extends Component {
         //this is hacky, but the onChange event in react-tinymce isn't firing after initial change
         const that = this
         const onChange = (event) => {
-          debugger;
+
           const wysi = event.target
           const thatDouble = that
           event.target.on("keyup", () => {
