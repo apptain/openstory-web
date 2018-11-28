@@ -43,13 +43,14 @@ class DocFormContainer extends Component {
     getDocViewCreateCall: PropTypes.func,
     getDocViewUpdateCall: PropTypes.func,
     onDocChange: PropTypes.func,
-    routeParams: PropTypes.any.isRequired,
+    routeParams: PropTypes.any,
   }
   constructor(props){
     super(props);
     this.state = {
-      docId: props.docId || this.props.routeParams.id,
-      doc: props.doc || null
+      schemaName: props.schemaName,
+      docId: props.docId,
+      doc: props.doc
     };
   }
   static get defaultProps() {
@@ -79,18 +80,23 @@ class DocFormContainer extends Component {
     this.props.docFieldChange(doc, fieldName, newValue, this.props.docChange);
   }
   static getDerivedStateFromProps(nextProps, prevState) {
-    const docId = nextProps.params ? nextProps.params.id : null ||
-      nextProps.routeParams.id;
-    if(id && !prevState.doc) {
-      const doc = nextProps.docs[nextProps.schemaName] ?
-        nextProps.docs[nextProps.schemaName][docId] : null;
+    debugger;
+    const docId = nextProps.match ? nextProps.match.params.id : null ||
+      nextProps.routeParams ? nextProps.routeParams.id : null ||
+      nextProps.params.id;
+    const schemaName = nextProps.match ? nextProps.match.params.schemaName : null ||
+    nextProps.routeParams ? nextProps.routeParams.schemaName : null ||
+      nextProps.params.schemaName;
+    if(docId && !prevState.doc) {
+      const doc = nextProps.docs[schemaName] ?
+        nextProps.docs[schemaName][docId] : null;
       if (doc) {
         nextProps.transition('DOC_SELECTED');
-        return { docId: nextProps.routeParams.id, doc };
+        return { docId, schemaName, doc };
         //nextProps.transition('DOC_INITIATED');
       } else {
         //sets state
-        return { docId };
+        return { docId, schemaName };
       }
     }
     return null;
@@ -113,7 +119,10 @@ class DocFormContainer extends Component {
     }
 
     const doc = this.state.doc || {};
-    const schema = this.props.schemaFunc();
+
+    const schema = this.props.schemas[this.props.schemaName];
+    const formSchema = JSON.Parse(schema.schema);
+    const uiSchema = JSON.Parse(schema.uiSchema);
 
     const formContext = {
       onFieldChange: this.onFieldChange
@@ -129,9 +138,9 @@ class DocFormContainer extends Component {
             <Form
               safeRenderCompletion={ true }
               formContext={ formContext }
-              schema={ schema }
+              schema={ formSchema }
               formData={ doc }
-              uiSchema={ this.props.uiSchema() }
+              uiSchema={ uiSchema }
               validate={ this.props.validate }
               // onChange={docChangeDebounced}
               onSubmit={ this.docSave }
@@ -150,7 +159,7 @@ class DocFormContainer extends Component {
 var mapStateToProps = function (state) {
   return {
     docs: state.domain.docs,
-    views: state.domain.views,
+    schemas: state.domain.schemas
   };
 }
 

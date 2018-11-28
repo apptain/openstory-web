@@ -8,6 +8,7 @@ export default class SchemaMasterDetails extends Component {
       <div className='container-fluid'>
         <MasterDetailsContainer
           schemaName='schema'
+          routeParams={ this.props.params || {} }
         />
       </div>
     );

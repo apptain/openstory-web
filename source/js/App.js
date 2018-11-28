@@ -182,12 +182,13 @@ class App extends React.Component {
           <div className='Page'>
             <Switch>
               <Route exact path={ routeCodes.HOME } component={ Home } />
-              <Route path={ routeCodes.SCHEMA } component={ SchemaMasterDetails } />
-              <Route path={ routeCodes.DOC_FORM } component={ DocFormContainer } />
+              <Route exact path={ routeCodes.SCHEMA } component={ SchemaMasterDetails } />
+              <Route exact path={ routeCodes.DOC_FORM } component={ DocFormContainer } />
               <Route path={ routeCodes.AUTHOR_APPLICATION } component={ AuthorApplicationWizard } />
               <Route path={ routeCodes.ACCOUNT_FORM } component={ AccountForm } />
               <Route path={ routeCodes.AUTHOR_LIST } component={ AuthorList } />
               <Route path={ routeCodes.AUTHOR_ADMIN } component={ AuthorAdmin } />
+              <Route path='*' component={ NotFound } />
             </Switch>
           </div>
         </main>
