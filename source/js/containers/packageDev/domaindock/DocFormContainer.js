@@ -96,8 +96,9 @@ class DocFormContainer extends Component {
     const schemaName = this.props.match ? this.props.match.params.schemaName : null ||
     this.props.routeParams ? this.props.routeParams.schemaName : null ||
       this.props.params.schemaName;
+    var doc;
     if(docId) {
-      const doc = this.props.docs[schemaName] ?
+      doc = this.props.docs[schemaName] ?
         this.props.docs[schemaName][docId] : null;
       if (doc) {
         //this.props.transition('DOC_SELECTED');
@@ -126,7 +127,7 @@ class DocFormContainer extends Component {
       );
     }
 
-    const doc = this.state.doc || {};
+
 
     const schema = this.props.schemas[schemaName];
     const formSchema = JSON.parse(schema.schema);

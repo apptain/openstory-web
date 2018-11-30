@@ -36,6 +36,7 @@ export const docUpdateFetch = (schemaName, apiCall, doc, id, formToDomainDoc, do
 //these are non-rest related actions that meta-tag a doc and
 //these should not be handle for asynchronicity with sagas
 export const docInitiate = (schemaName, doc, keyField, tempId) => {
+  debugger;
   const newDoc = Object.assign(doc, {meta : {
       schemaName,
       keyField,
