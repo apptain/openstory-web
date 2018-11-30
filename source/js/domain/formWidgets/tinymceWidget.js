@@ -22,7 +22,7 @@ export default class tinymceWidget extends Component {
     }
     render() {
         //this is hacky, but the onChange event in react-tinymce isn't firing after initial change
-        const that = this
+        const that = this;
         const onChange = (event) => {
 
           const wysi = event.target
