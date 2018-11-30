@@ -79,30 +79,38 @@ class DocFormContainer extends Component {
       this.props.docs[this.props.schemaName][this.state.docId] : null;
     this.props.docFieldChange(doc, fieldName, newValue, this.props.docChange);
   }
-  static getDerivedStateFromProps(nextProps, prevState) {
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //
+  //
+  // }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   debugger;
+  //   return true;
+  //   //return shouldRender(this, nextProps, nextState);
+  // }
+  render() {
     debugger;
-    const docId = nextProps.match ? nextProps.match.params.id : null ||
-      nextProps.routeParams ? nextProps.routeParams.id : null ||
-      nextProps.params.id;
-    const schemaName = nextProps.match ? nextProps.match.params.schemaName : null ||
-    nextProps.routeParams ? nextProps.routeParams.schemaName : null ||
-      nextProps.params.schemaName;
-    if(docId && !prevState.doc) {
-      const doc = nextProps.docs[schemaName] ?
-        nextProps.docs[schemaName][docId] : null;
+    const docId = this.props.match ? this.props.match.params.id : null ||
+    this.props.routeParams ? this.props.routeParams.id : null ||
+      this.props.params.id;
+    const schemaName = this.props.match ? this.props.match.params.schemaName : null ||
+    this.props.routeParams ? this.props.routeParams.schemaName : null ||
+      this.props.params.schemaName;
+    if(docId) {
+      const doc = this.props.docs[schemaName] ?
+        this.props.docs[schemaName][docId] : null;
       if (doc) {
-        nextProps.transition('DOC_SELECTED');
-        return { docId, schemaName, doc };
-        //nextProps.transition('DOC_INITIATED');
+        //this.props.transition('DOC_SELECTED');
+        //return { docId, schemaName, doc };
+        //this.props.transition('DOC_INITIATED');
       } else {
         //sets state
-        return { docId, schemaName };
+        //return { docId, schemaName };
       }
     }
-    return null;
-  }
-  render() {
-    if (!this.state.docId) {
+    //return null;
+
+    if (!docId) {
       const ObjectId = (m = Math, d = Date, h = 16, s = s => m.floor(s).toString(h)) =>
         s(d.now() / 1000) + ' '.repeat(h).replace(/./g, () => s(m.random() * h));
       const tempId = ObjectId();
@@ -120,9 +128,9 @@ class DocFormContainer extends Component {
 
     const doc = this.state.doc || {};
 
-    const schema = this.props.schemas[this.props.schemaName];
-    const formSchema = JSON.Parse(schema.schema);
-    const uiSchema = JSON.Parse(schema.uiSchema);
+    const schema = this.props.schemas[schemaName];
+    const formSchema = JSON.parse(schema.schema);
+    const uiSchema = JSON.parse(schema.uiSchema);
 
     const formContext = {
       onFieldChange: this.onFieldChange
@@ -130,10 +138,10 @@ class DocFormContainer extends Component {
 
     return (
       <div className="doc-form-container">
-        <Action is="initializing">
-          <h1>Initializing...</h1>
-        </Action>
-        <Action is="ready">
+        {/*<Action is="initializing">*/}
+          {/*<h1>Initializing...</h1>*/}
+        {/*</Action>*/}
+        {/*<Action is="ready">*/}
           <div className="container">
             <Form
               safeRenderCompletion={ true }
@@ -150,7 +158,7 @@ class DocFormContainer extends Component {
               FieldTemplate={ CustomFieldTemplate }
             />
           </div>
-        </Action>
+        {/*</Action>*/}
       </div>
     )
   }

@@ -268,6 +268,7 @@ export default (state = init, action) => {
         })
       })
     case docInitiate:
+      debugger;
       const updatedState = Object.assign({}, state, {
         docs: Object.assign({}, state.docs, {
           [action.schemaName]: Object.assign({}, state.docs[action.schemaName] || {}, {
